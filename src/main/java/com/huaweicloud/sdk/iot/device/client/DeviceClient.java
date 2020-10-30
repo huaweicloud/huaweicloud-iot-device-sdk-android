@@ -36,6 +36,8 @@ import com.huaweicloud.sdk.iot.device.client.requests.PropsSet;
 import com.huaweicloud.sdk.iot.device.client.requests.ServiceProperty;
 import com.huaweicloud.sdk.iot.device.client.requests.ShadowGet;
 import com.huaweicloud.sdk.iot.device.client.requests.ShadowMessage;
+import com.huaweicloud.sdk.iot.device.constant.BaseConstant;
+import com.huaweicloud.sdk.iot.device.constant.IotDeviceIntent;
 import com.huaweicloud.sdk.iot.device.service.AbstractDevice;
 import com.huaweicloud.sdk.iot.device.transport.ActionListener;
 import com.huaweicloud.sdk.iot.device.transport.ConnectListener;
@@ -57,9 +59,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import com.huaweicloud.sdk.iot.device.constant.BaseConstant;
-import com.huaweicloud.sdk.iot.device.constant.IotDeviceIntent;
 
 
 /**
@@ -169,6 +168,7 @@ public class DeviceClient implements RawMessageListener {
             Intent intent = new Intent(IotDeviceIntent.ACTION_IOT_DEVICE_CONNECT);
             intent.putExtra(BaseConstant.BROADCAST_STATUS, BaseConstant.STATUS_RECONNECT);
             intent.putExtra(BaseConstant.SERVERURI, serverURI);
+            intent.putExtra(BaseConstant.RECONNECT, reconnect);
             localBroadcastManager.sendBroadcast(intent);
         }
     };
@@ -229,6 +229,17 @@ public class DeviceClient implements RawMessageListener {
     public void reportDeviceMessage(DeviceMessage deviceMessage) {
         String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
         this.publishRawMessage(new RawMessage(topic, JsonUtil.convertObject2String(deviceMessage)), messagesActionListener);
+    }
+
+    /**
+     * 上报设备消息
+     *
+     * @param deviceMessage 设备消息
+     * @param listener      监听器
+     */
+    public void reportDeviceMessage(DeviceMessage deviceMessage, ActionListener listener) {
+        String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
+        this.publishRawMessage(new RawMessage(topic, JsonUtil.convertObject2String(deviceMessage)), listener);
     }
 
     /**

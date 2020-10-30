@@ -67,6 +67,11 @@ public class BaseConstant {
     public static final String SERVERURI = "serverURI";
 
     /**
+     * 设备是否重连平台
+     */
+    public static final String RECONNECT = "reconnect";
+
+    /**
      * 自定义topic参数名字常量
      */
     public static final String CUSTOMIZED_TOPIC_NAME = "customized_topic_name";
@@ -90,5 +95,35 @@ public class BaseConstant {
      * 设备影子数据信息名字常量
      */
     public static final String SHADOW_DATA = "shadow_data";
+
+    /**
+     * 子设备ID广播常量
+     */
+    public static final String SUB_DEVICE_ID = "sub.device.id";
+
+    /**
+     * 子设备状态列表广播常量
+     */
+    public static final String SUB_DEVICE_ID_LIST_STATUS = "sub.device.id.list.status";
+
+    /**
+     * 子设备列表广播常量
+     */
+    public static final String SUB_DEVICE_ID_LIST = "sub.device.id.list";
+
+    /**
+     * 子设备列表广播常量
+     */
+    public static final String SUB_DEVICE_LIST = "sub.device.list";
+
+    /**
+     * 新增子设备信息广播常量
+     */
+    public static final String SUB_DEVICE_ADD = "sub.device.add";
+
+    /**
+     * 删除子设备信息广播常量
+     */
+    public static final String SUB_DEVICE_DELETE = "sub.device.delete";
 
 }

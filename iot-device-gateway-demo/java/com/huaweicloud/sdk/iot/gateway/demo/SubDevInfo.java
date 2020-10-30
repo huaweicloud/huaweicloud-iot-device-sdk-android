@@ -13,43 +13,40 @@
  *
  * */
 
-package com.huaweicloud.sdk.iot.device.client.requests;
+package com.huaweicloud.sdk.iot.gateway.demo;
 
 
-import com.google.gson.annotations.SerializedName;
-import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
+import com.huaweicloud.sdk.iot.device.gateway.requests.DeviceInfo;
 
-/**
- * 读属性操作
- */
-public class PropsGet {
+import java.util.Map;
 
-    @SerializedName("object_device_id")
-    String deviceId;
+public class SubDevInfo {
 
-    @SerializedName("service_id")
-    String serviceId;
+    long version;
 
-    public String getDeviceId() {
-        return deviceId;
+    Map<String, DeviceInfo> subdevices;
+
+    public long getVersion() {
+        return version;
     }
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
+    public void setVersion(long version) {
+        this.version = version;
     }
 
-    public String getServiceId() {
-        return serviceId;
+    public Map<String, DeviceInfo> getSubdevices() {
+        return subdevices;
     }
 
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
+    public void setSubdevices(Map<String, DeviceInfo> subdevices) {
+        this.subdevices = subdevices;
     }
 
     @Override
     public String toString() {
-        return JsonUtil.convertObject2String(this);
+        return "SubDevInfo{"
+                + "version=" + version
+                + ", subdevices=" + subdevices
+                + '}';
     }
-
 }
-

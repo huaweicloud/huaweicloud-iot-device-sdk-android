@@ -22,17 +22,15 @@
 - [自定义Topic](#16)
 - [面向物模型编程](#17)
 - [V3接口](#18)
-- [开源协议](#19)
+- [网关开发](#19)
+- [开源协议](#20)
 
 <h1 id="0">修订记录</h1>
-
 + 文档版本01 第一次正式发布（2020-10-13）
 
 <h1 id="1">前言</h1>
-
 本文通过实例讲述iot-device-sdk-android（以下简称SDK）帮助设备用MQTT协议快速连接到华为物联网平台。
 <h1 id="2">SDK简介</h1>
-
 SDK面向运算、存储能力较强的嵌入式终端设备，开发者通过调用SDK接口，便可实现设备与物联网平台的上下行通讯。SDK当前支持的功能有：
 *  支持设备消息、属性上报、属性读写、命令下发
 *  支持OTA升级
@@ -42,10 +40,11 @@ SDK面向运算、存储能力较强的嵌入式终端设备，开发者通过�
 *  支持设备影子查询
 *  支持物模型编程
 *  兼容V3接口
+*  支持网关开发
 
 **SDK目录结构**
 
-iot-device-sdk-java：sdk代码
+huaweicloud-iot-device-sdk-android：sdk代码
 
 **第三方类库使用版本**
 
@@ -54,11 +53,9 @@ org.eclipse.paho.client.mqttv3：v1.2.5
 gson：v2.8.6
 
 <h1 id="3">准备工作</h1>
-
 *  已安装Android Studio
 
 <h1 id="4">上传产品模型并注册设备</h1>
-
 为了方便体验，我们提供了一个烟感的产品模型，烟感会上报烟雾值、温度、湿度、烟雾报警、还支持响铃报警命令。以烟感例，体验消息上报、属性上报等功能。
 
 1. 访问[设备接入服务](https://www.huaweicloud.com/product/iothub.html)，单击“立即使用”进入设备接入控制台。
@@ -78,16 +75,15 @@ gson：v2.8.6
 7. 设备注册成功后保存设备标识码、设备ID、密钥。
 
 <h1 id="5">SDK编译</h1>
-
-1. 使用Android studio创建Android工程，并设置包名为com.huaweicloud.sdk.iot.device
+1. 使用Android studio创建Android工程，并设置包名为com.huaweicloud.sdk.iot.device。
 
    ![](./doc/as_setting1.png)
 
-2. 拷贝iot-device-sdk-android工程下java源码到com.huaweicloud.sdk.iot.device包下面
+2. 拷贝iot-device-sdk-android工程下java源码到com.huaweicloud.sdk.iot.device包下面。
 
    ![](./doc/as_setting2.png)
 
-3. 配置app目录下build.gradle
+3. 配置app目录下build.gradle。
 
    ![](./doc/as_setting3.png)
 
@@ -136,10 +132,9 @@ gson：v2.8.6
    ![](./doc/as_setting5.png)
 
 <h1 id="6">代码工程配置</h1>
+1. 工程app/libs下添加上文中生成的Jar包。
 
-1. 工程app/libs下添加上文中生成的Jar包
-
-2. build.gradle中添加以下依赖
+2. build.gradle中添加以下依赖。
 
    ```groovy
    implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -149,10 +144,9 @@ gson：v2.8.6
    ```
 
 <h1 id="7">设备初始化</h1>
-
 1. 创建设备。
 
-     设备接入平台时，物联网平台提供密钥和证书两种鉴权方式,如果使用MQTTS，请把下载的bks证书放置到src/main/assets下，<a href="https://support.huaweicloud.com/devg-iothub/iot_02_1004.html#ZH-CN_TOPIC_0187644975__section197481637133318" target="_blank">下载证书文件</a>。
+     设备接入平台时，物联网平台提供密钥和证书两种鉴权方式，如果使用MQTTS，请把下载的bks证书放置到src/main/assets下，<a href="https://support.huaweicloud.com/devg-iothub/iot_02_1004.html#ZH-CN_TOPIC_0187644975__section197481637133318" target="_blank">下载证书文件</a>。
 
    - 密钥方式接入。
 
@@ -247,7 +241,6 @@ gson：v2.8.6
    ```
 
 <h1 id="8">属性上报</h1>
-
 4. 接口调用
 
    ```java
@@ -277,7 +270,6 @@ gson：v2.8.6
    ```
 
 <h1 id="9">消息上报</h1>
-
 1. 接口调用
 
    ```java
@@ -307,7 +299,6 @@ gson：v2.8.6
    ```
 
 <h1 id="10">属性读写</h1>
-
 1. 注册广播IotDeviceIntent.ACTION_IOT_DEVICE_SYS_PROPERTIES_GET和IotDeviceIntent.ACTION_IOT_DEVICE_SYS_PROPERTIES_SET，用于接收平台读写设备属性。
 
    ```
@@ -340,19 +331,17 @@ gson：v2.8.6
    ```
 
 <h1 id="11">消息下发</h1>
+注册广播IotDeviceIntent.ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN，用于接收平台下发的消息。
 
-1. 注册广播IotDeviceIntent.ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN，用于接收平台下发的消息。
+```
+LocalBroadcastManager.getInstance(this).registerReceiver(messageBroadcastReceiver, new IntentFilter(IotDeviceIntent.ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN));
 
-   ```
-   LocalBroadcastManager.getInstance(this).registerReceiver(messageBroadcastReceiver, new IntentFilter(IotDeviceIntent.ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN));
-   
-   //消息下发广播携带数据
-   DeviceMessage deviceMessage = intent.getParcelableExtra(BaseConstant.SYS_DOWN_MESSAGES);
-   ```
+//消息下发广播携带数据
+DeviceMessage deviceMessage = intent.getParcelableExtra(BaseConstant.SYS_DOWN_MESSAGES);
+```
 
 <h1 id="12">命令下发</h1>
-
-1. 注册广播IotDeviceIntent.ACTION_IOT_DEVICE_SYS_COMMANDS,用于接收平台下发的命令。
+1. 注册广播IotDeviceIntent.ACTION_IOT_DEVICE_SYS_COMMANDS，用于接收平台下发的命令。
 
    ```java
    LocalBroadcastManager.getInstance(this).registerReceiver(messageBroadcastReceiver, new IntentFilter(IotDeviceIntent.ACTION_IOT_DEVICE_SYS_COMMANDS));
@@ -375,7 +364,6 @@ gson：v2.8.6
    ```
 
 <h1 id="13">设备影子</h1>
-
 1. 接口调用
 
    ```java
@@ -395,7 +383,6 @@ gson：v2.8.6
    ```
 
 <h1 id="14">OTA升级</h1>
-
 1. 软件升级。参考<a href=" https://support.huaweicloud.com/usermanual-iothub/iot_01_0047.html#section3 " target="_blank">软件升级指导</a>上传软件包。
 
 2. 固件升级。参考<a href=" https://support.huaweicloud.com/usermanual-iothub/iot_01_0027.html#section3 " target="_blank">固件升级</a>上传固件包。
@@ -426,7 +413,6 @@ gson：v2.8.6
    ```
 
 <h1 id="15">文件上传/下载管理</h1>
-
 1. 接口调用
 
    ```java
@@ -449,12 +435,10 @@ gson：v2.8.6
    device.getFileManager().downloadResultReport(paras);
    ```
 
-2. 注册广播IotDeviceIntent.ACTION_IOT_DEVICE_GET_UPLOAD_URL,用于接收平台下发文件上传临时URL通知
-
-   ，IotDeviceIntent.ACTION_IOT_DEVICE_GET_DOWNLOAD_URL用于接收下发文件下载临时URL通知。
+2. 注册广播IotDeviceIntent.ACTION_IOT_DEVICE_GET_UPLOAD_URL，用于接收平台下发文件上传临时URL通知，IotDeviceIntent.ACTION_IOT_DEVICE_GET_DOWNLOAD_URL用于接收下发文件下载临时URL通知。
 
    ```java
-   LocalBroadcastManager.getInstance(this).registerReceiver(fileManagerBroadcastReceiver,
+LocalBroadcastManager.getInstance(this).registerReceiver(fileManagerBroadcastReceiver,
                    new IntentFilter(IotDeviceIntent.ACTION_IOT_DEVICE_GET_UPLOAD_URL));       LocalBroadcastManager.getInstance(this).registerReceiver(fileManagerBroadcastReceiver,
                    new IntentFilter(IotDeviceIntent.ACTION_IOT_DEVICE_GET_DOWNLOAD_URL));
                    
@@ -463,7 +447,6 @@ gson：v2.8.6
    ```
 
 <h1 id="16">自定义Topic</h1>
-
 1. 注册广播IotDeviceIntent.ACTION_IOT_DEVICE_CUSTOMIZED_TOPIC_CONNECT用于接收topic订阅结果，IotDeviceIntent.ACTION_IOT_DEVICE_CUSTOMIZED_TOPIC_MESSAGE用于接收topic下发消息，IotDeviceIntent.ACTION_IOT_DEVICE_CUSTOMIZED_TOPIC_REPORT用于接收topic发布结果。
 
    ```java
@@ -520,7 +503,6 @@ gson：v2.8.6
    ```
 
 <h1 id="17">面向物模型编程</h1>
-
 SDK提供了一种更简单的方式，即面向物模型编程。面向物模型编程指基于SDK提供的物模型抽象能力，设备代码按照物模型定义设备服务，然后可以直接访问设备服务（即调用设备服务的属性读写接口），SDK就能自动和平台通讯，完成属性的同步和命令的调用。
 
 相比直接调用客户端接口和平台进行通讯，面向物模型编程更简单，它简化了设备侧代码的复杂度，让设备代码只需要关注业务，而不用关注和平台的通讯过程。这种方式适合多数场景。
@@ -551,12 +533,12 @@ SDK提供了一种更简单的方式，即面向物模型编程。面向物模�
 
 2. 定义服务的命令。设备收到平台下发的命令时，SDK会自动调用这里定义的命令。
 
-   接口入参和返回值的类型是固定的不能修改，否则会出现运行时错误。
+   接口入参和返回值的类型是固定的不能修改，否则运行时会出现错误。
 
-   这里定义的是一个响铃报警命令，命令名为ringAlarm 
+   这里定义的是一个响铃报警命令，命令名为ringAlarm 。
 
    ```java
-   //定义命令，注意接口入参和返回值类型是固定的不能修改，否则会出现运行时错误
+   //定义命令，注意接口入参和返回值类型是固定的不能修改，否则运行时会出现错误
            @DeviceCommand(name = "ringAlarm")
            public CommandRsp alarm(Map<String, Object> paras) {
                int duration = (int) paras.get("duration");
@@ -568,7 +550,7 @@ SDK提供了一种更简单的方式，即面向物模型编程。面向物模�
 
 3. 定义getter和setter接口 
 
-   - 当设备收到平台下发的查询属性以及设备上报属性时，会自动调用getter方法。getter方法需要读取设备的属性值，可以实时到传感器读取或者读取本地的缓存
+   - 当设备收到平台下发的查询属性以及设备上报属性时，会自动调用getter方法。getter方法需要读取设备的属性值，可以实时到传感器读取或者读取本地的缓存。
 
    - 当设备收到平台下发的设置属性时，会自动调用setter方法。setter方法需要更新设备本地的值。如果属性不支持写操作，setter保留空实现。
 
@@ -638,7 +620,6 @@ SDK提供了一种更简单的方式，即面向物模型编程。面向物模�
    ```
 
 <h1 id="18">V3接口</h1>
-
 1. 接口调用
 
    ```java
@@ -675,6 +656,371 @@ SDK提供了一种更简单的方式，即面向物模型编程。面向物模�
    commandV3 = intent.getParcelableExtra(BaseConstant.SYS_COMMANDS);
    ```
 
-<h1 id="19">开源协议</h1>
+<h1 id="19">网关开发</h1>
+
+网关是一个特殊的设备，除具备一般设备功能之外，还具有子设备管理、子设备消息转发的功能。SDK提供了AbstractGateway抽象类来简化网关的实现。该类提供了子设备管理功能，需要从平台获取子设备信息并保存（需要子类提供子设备持久化接口）、子设备下行消息转发功能（需要子类实现转发处理接口）、以及上报子设备列表、上报子设备属性、上报子设备状态、上报子设备消息等接口。 
+
+- **使用AbstractGateway类** 
+
+  继承该类，在构造函数里提供子设备信息持久化接口，实现其下行消息转发的抽象接口： 
+
+  ```java
+   /**
+       * 子设备命令下发处理，网关需要转发给子设备，需要子类实现
+       *
+       * @param requestId 请求id
+       * @param command   命令
+       */
+      public abstract void onSubdevCommand(String requestId, Command command);
+  
+      /**
+       * 子设备属性设置，网关需要转发给子设备，需要子类实现
+       *
+       * @param requestId 请求id
+       * @param propsSet  属性设置
+       */
+      public abstract void onSubdevPropertiesSet(String requestId, PropsSet propsSet);
+  
+      /**
+       * 子设备读属性，，网关需要转发给子设备，需要子类实现
+       *
+       * @param requestId 请求id
+       * @param propsGet  属性查询
+       */
+      public abstract void onSubdevPropertiesGet(String requestId, PropsGet propsGet);
+  
+      /**
+       * 子设备消息下发，网关需要转发给子设备，需要子类实现
+       *
+       * @param message 设备消息
+       */
+      public abstract void onSubdevMessage(DeviceMessage message);
+  ```
+
+  
+
+- **iot-device-gateway-demo代码介绍** 
+
+  工程iot-device-gateway-demo基于**AbstractGateway**实现了一个简单的网关, 提供设备接入能力。关键类：
+
+  SimpleGateway：继承自AbstractGateway，实现子设备管理和下行消息转发
+
+  StringTcpServer：基于netty实现一个TCP server，本例中子设备采用TCP协议，并且首条消息为鉴权消息
+
+  SubDevicesFilePersistence：子设备信息持久化，采用json文件来保存子设备信息，并在内存中做了缓存
+
+  Session：设备会话类，保存了设备id和TCP的channel的对应关系
+
+  MainActivity：网关操作界面
+
+- **SimpleGateway类** 
+
+  - 平台增加/删除网关子设备：平台向网关下发新增/删除的子设备，SDK上报广播IotDeviceIntent.ACTION_IOT_DEVICE_SYS_SUB_ADD_DEVICE_NOTIFY(添加子设备)和IotDeviceIntent.ACTION_IOT_DEVICE_SYS_SUB_DELETE_DEVICE_NOTIFY(删除子设备)，广播中通过字段BaseConstant.SUB_DEVICE_LIST携带增加/删除的子设备信息。
+
+    ```java
+    SubDevicesInfo subDevicesInfo = intent.getParcelableExtra(BaseConstant.SUB_DEVICE_LIST);
+    ```
+
+  - 网关主动增加/删除其接入的子设备，在平台上完成开户：调用**AbstractGateway**类的方法reportSubDeviceAdd(增加子设备)/reportSubDeviceDelete(删除子设备)向平台请求增加/删除子设备。平台接收到请求后，向网关下发增加/删除子设备的状况，SDK上报广播IotDeviceIntent.ACTION_IOT_DEVICE_SYS_SUB_ADD_DEVICE_RESPONSE(添加子设备响应)和IotDeviceIntent.ACTION_IOT_DEVICE_SYS_SUB_DELETE_DEVICE_RESPONSE(删除子设备响应)，广播中通过字段BaseConstant.SUB_DEVICE_ADD/BaseConstant.SUB_DEVICE_DELETE分别携带增加/删除子设备的信息。
+
+    ```java
+    //增加的子设备信息
+    SubDevicesAddInfo subDevicesAddInfo = intent.getParcelableExtra(BaseConstant.SUB_DEVICE_ADD);
+    //删除的子设备信息
+    SubDevicesDeleteInfo subDevicesDeleteInfo = intent.getParcelableExtra(BaseConstant.SUB_DEVICE_DELETE);
+    ```
+
+  - 网关更新子设备状态：调用**AbstractGateway**类的方法reportSubDeviceStatus向平台上报子设备状态，告知平台子设备离线/上线，状态更新后，SDK上报广播IotDeviceIntent.ACTION_IOT_DEVICE_SYS_SUB_STATUSES_REPORT，广播中通过字段BaseConstant.BROADCAST_STATUS携带操作成功/失败结果，BaseConstant.SUB_DEVICE_ID_LIST_STATUS携带更新状态的子设备和状态的集合。
+
+    ```java
+    String deviceId； //子设备ID
+    String status； //子设备状态，取值：OFFLINE(离线)，ONLINE(上线)
+    reportSubDeviceStatus(String deviceId, String status) //更新子设备状态
+    
+    //获取子设备状态更新结果
+    int reportStatus = intent.getIntExtra(BaseConstant.BROADCAST_STATUS, BaseConstant.STATUS_FAIL);
+    switch (reportStatus) {
+    //子设备状态更新成功
+    case BaseConstant.STATUS_SUCCESS:
+         ArrayList<DeviceStatus> deviceStatusArrayList = intent.getParcelableArrayListExtra(BaseConstant.SUB_DEVICE_ID_LIST_STATUS);
+         break;
+    default:
+         break;         
+    ```
+
+  - 开启/关闭网关
+
+    ```java
+    //网关定义，SimpleGateway实现了AbstractGateway类
+    //subDevicesPersistence为持久化对象，实现抽象类SubDevicesPersistence
+    simpleGateway = new SimpleGateway(this, subDevicesPersistence,
+                    "ssl://iot-mqtts.cn-north-4.myhuaweicloud.com:8883",
+                    "5eb4cd4049a5ab087d7d4861_demo", "secret");
+    
+    //开启网关
+    simpleGateway.init();
+    
+    //关闭网关，在关闭网关时请调用更新子设备状态方法更新子设备离线状态
+    simpleGateway.close();
+    ```
+
+- **下行消息处理** 
+
+  网关收到平台下行消息时，需要转发给子设备。平台下行消息分为三种：设备消息、属性读写、命令 。
+
+  - **设备消息：**这里我们需要根据deviceId获取nodeId，从而获取session，从session里获取channel，就可以往channel发送消息。在转发消息时，可以根据需要进行一定的转换处理。
+
+    ```java
+     @Override
+        public void onSubdevMessage(DeviceMessage message) {
+            if (message.getDeviceId() == null) {
+                return;
+            }
+    
+            String nodeId = IotUtil.getNodeIdFromDeviceId(message.getDeviceId());
+            if (nodeId == null) {
+                return;
+            }
+    
+            Session session = nodeIdToSesseionMap.get(nodeId);
+            if (session == null) {
+                Log.i(TAG, "session is null ,nodeId:" + nodeId);
+                return;
+            }
+    		
+            //直接把消息转发给子设备
+            session.getChannel().writeAndFlush(message.getContent());
+            Log.i(TAG, "writeAndFlush " + message.getContent());
+    
+        }
+    ```
+
+  - **属性读写：** 
+
+    属性读写包括属性设置和属性查询。 
+
+    属性设置： 
+
+    ```java
+     @Override
+        public void onSubdevPropertiesSet(String requestId, PropsSet propsSet) {
+    
+            if (propsSet.getDeviceId() == null) {
+                return;
+            }
+    
+            String nodeId = IotUtil.getNodeIdFromDeviceId(propsSet.getDeviceId());
+            if (nodeId == null) {
+                return;
+            }
+    
+            Session session = nodeIdToSesseionMap.get(nodeId);
+            if (session == null) {
+                Log.i(TAG, "session is null ,nodeId:" + nodeId);
+                return;
+            }
+    
+            //这里我们直接把对象转成string发给子设备，实际场景中可能需要进行一定的编解码转换
+            session.getChannel().writeAndFlush(JsonUtil.convertObject2String(propsSet));
+    
+            //为了简化处理，我们在这里直接回响应。更合理做法是在子设备处理完后再回响应
+            getClient().respondPropsSet(requestId, IotResult.SUCCESS);
+    
+            Log.i(TAG, "writeAndFlush " + propsSet);
+    
+        }
+    ```
+
+    属性查询： 
+
+    ```java
+    @Override
+        public void onSubdevPropertiesGet(String requestId, PropsGet propsGet) {
+    
+            //不建议平台直接读子设备的属性，这里直接返回失败
+            Log.e(TAG, "not supporte onSubdevPropertiesGet");
+            getClient().respondPropsSet(requestId, IotResult.FAIL);
+        }
+    ```
+
+  - **命令：**处理流程和消息类似，实际场景中可能需要不同的编解码转换。 
+
+    ```java
+    @Override
+        public void onSubdevCommand(String requestId, Command command) {
+    
+            if (command.getDeviceId() == null) {
+                return;
+            }
+    
+            String nodeId = IotUtil.getNodeIdFromDeviceId(command.getDeviceId());
+            if (nodeId == null) {
+                return;
+            }
+    
+            Session session = nodeIdToSesseionMap.get(nodeId);
+            if (session == null) {
+                Log.i(TAG, "session is null ,nodeId:" + nodeId);
+                return;
+            }
+    
+            //这里我们直接把command对象转成string发给子设备，实际场景中可能需要进行一定的编解码转换
+            session.getChannel().writeAndFlush(JsonUtil.convertObject2String(command));
+    
+            //为了简化处理，我们在这里直接回命令响应。更合理做法是在子设备处理完后再回响应
+            getClient().respondCommand(requestId, new CommandRsp(0));
+            Log.i(TAG, "writeAndFlush " + command);
+        }
+    ```
+
+- **上行消息处理** 
+
+  上行处理在StringTcpServer的channelRead0接口里。如果会话不存在，需要先创建会话：
+
+  如果子设备信息不存在，这里会创建会话失败，直接拒绝连接
+
+  ```java
+    @Override
+          protected void channelRead0(ChannelHandlerContext ctx, String s) throws Exception {
+              Channel incoming = ctx.channel();
+              Log.i(TAG, "channelRead0" + incoming.remoteAddress() + " msg :" + s);
+  
+              //如果是首条消息,创建session
+              Session session = simpleGateway.getSessionByChannel(incoming.id().asLongText());
+              if (session == null) {
+                  String nodeId = s;
+                  session = simpleGateway.createSession(nodeId, incoming);
+  
+                  //创建会话失败，拒绝连接
+                  if (session == null) {
+                      Log.i(TAG, "close channel");
+                      ctx.close();
+                  } else {
+                      Log.i(TAG, session.getDeviceId() + " ready to go online.");
+                      simpleGateway.reportSubDeviceStatus(session.getDeviceId(), "ONLINE");
+                  }
+  
+              }
+  ```
+
+  如果会话存在，则进行消息转发： 
+
+  ```java
+  else {
+  
+                  //网关收到子设备上行数据时，可以以消息或者属性上报转发到平台。
+                  //实际使用时根据需要选择一种即可，这里为了演示，两种类型都转发一遍
+  
+                  //上报消息用reportSubDeviceMessage
+                  DeviceMessage deviceMessage = new DeviceMessage(s);
+                  deviceMessage.setDeviceId(session.getDeviceId());
+                  simpleGateway.reportSubDeviceMessage(deviceMessage);
+  
+                  //报属性则调用reportSubDeviceProperties，属性的serviceId和字段名要和子设备的产品模型保持一致
+                  ServiceProperty serviceProperty = new ServiceProperty();
+                  serviceProperty.setServiceId("Battery");
+                  Map<String, Object> props = new HashMap<>();
+                  //属性值暂且写死，实际中应该根据子设备上报的进行组装
+                  props.put("batteryThreshold", random.nextInt(99) + 1);
+                  serviceProperty.setProperties(props);
+                  simpleGateway.reportSubDeviceProperties(session.getDeviceId(), Arrays.asList(serviceProperty));
+  
+              }
+  ```
+
+  到这里，网关的关键代码介绍完了，其他的部分看源代码。整个demo是开源的，用户可以根据需要进行扩展。比如修改持久化方式、转发中增加消息格式的转换、实现其他子设备接入协议。 
+
+- **iot-gateway-demo的使用** 
+
+  1. 使用Android Studio新建Android工程，包名设置为com.huaweicloud.sdk.iot.gateway.demo
+
+     ，把iot-device-gateway-demo目录下内容添加到工程相应模块。
+
+     AndroidManifest.xml文件中添加以下权限
+
+     ```xml
+     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+         <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+         <uses-permission android:name="android.permission.INTERNET" />
+         <uses-permission android:name="android.permission.WAKE_LOCK" />
+     ```
+
+     build.gradle文件中添加以下依赖
+
+     ```java
+     implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
+     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
+     implementation 'com.google.code.gson:gson:2.8.6'
+     implementation 'io.netty:netty-all:4.1.47.Final'
+     ```
+
+     libs中添加生成的sdk包
+
+  2. 修改MainActivity中的initData方法，替换SimpleGateway构造参数 , testAddSub方法中产品id设为对应的产品ID。
+
+     ```java
+      private void initData() {
+             subDevices = new HashMap<String, String>();
+             subDevicesPersistence = new SubDevicesFilePersistence(this);
+             simpleGateway = new SimpleGateway(this, subDevicesPersistence,
+                     "ssl://iot-mqtts.cn-north-4.myhuaweicloud.com:8883",
+                     "5eb4cd4049a5ab087d7d4861_demo", "secret");
+             //同步网关信息
+             List<DeviceInfo> allSubDevices = subDevicesPersistence.getAllSubDevices();
+             for (int i = 0; i < allSubDevices.size(); i++) {
+                 subDevices.put(allSubDevices.get(i).getDeviceId(), allSubDevices.get(i).getNodeId());
+             }
+             stringTcpServer = new StringTcpServer(this, mHandler, simpleGateway);
+             stringTcpServer.start();
+         }
+     
+     private void testAddSub() {
+             String nodeId = edtAddNodeId.getText().toString();
+             if (TextUtils.isEmpty(nodeId)) {
+                 mToast.setText("nodeId不能为空！");
+                 mToast.show();
+                 return;
+             }
+     
+             editTextLog.append("网关新增子设备请求\n");
+             List<DeviceInfo> deviceInfoList = new ArrayList<>();
+             DeviceInfo deviceInfo = new DeviceInfo();
+             deviceInfo.setNodeId(nodeId);
+         	//产品ID修改为对应的产品ID
+             deviceInfo.setProductId("5eb4cd4049a5ab087d7d4861");
+             deviceInfo.setName(deviceInfo.getNodeId());
+             deviceInfoList.add(deviceInfo);
+     
+             simpleGateway.reportSubDeviceAdd(deviceInfoList);
+         }
+     ```
+
+  3. 在测试demo界面点击开启网关，在平台上看见网关在线。
+
+     ![](./doc/gateway_1.png)
+
+     ![](./doc/gateway_2.png)
+
+  4. 平台添加子设备
+
+     ![](./doc/gateway_3.png)
+
+  5. 网关上线新加的子设备，输入要上线的子设备标识，点击子设备上线按钮，然后在平台可以看到子设备在线状态。
+
+     ![](./doc/gateway_4.png)
+
+     ![](./doc/gateway_5.png)
+
+  6. 模拟网关子设备上线后，模拟子设备每个2s向网关发送消息和属性变化，logcat可以查看相应的消息打印。
+
+     ![](./doc/gateway_6.png)
+
+  7. 查看消息跟踪 
+
+     在平台上找到网关，选择 设备详情-消息跟踪，打开消息跟踪。继续让子设备发送数据，等待片刻后看到消息跟踪： 
+
+     ![](./doc/gateway_7.png)
+
+<h1 id="20">开源协议</h1>
 
 - 遵循BSD-3开源许可协议

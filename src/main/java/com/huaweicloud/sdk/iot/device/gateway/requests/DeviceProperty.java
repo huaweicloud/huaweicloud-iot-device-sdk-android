@@ -13,21 +13,30 @@
  *
  * */
 
-package com.huaweicloud.sdk.iot.device.client.requests;
+package com.huaweicloud.sdk.iot.device.gateway.requests;
 
-import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
+import com.google.gson.annotations.SerializedName;
+import com.huaweicloud.sdk.iot.device.client.requests.ServiceProperty;
 
 import java.util.List;
 
 /**
- * 设备属性内容
+ * 设备属性
  */
-public class DeviceProperties {
+public class DeviceProperty {
 
-    /**
-     * 服务属性列表
-     */
+    @SerializedName("device_id")
+    String deviceId;
+
     List<ServiceProperty> services;
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
 
     public List<ServiceProperty> getServices() {
         return services;
@@ -35,10 +44,5 @@ public class DeviceProperties {
 
     public void setServices(List<ServiceProperty> services) {
         this.services = services;
-    }
-
-    @Override
-    public String toString() {
-        return JsonUtil.convertObject2String(this);
     }
 }
