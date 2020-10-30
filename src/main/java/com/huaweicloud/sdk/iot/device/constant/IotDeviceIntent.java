@@ -110,4 +110,39 @@ public class IotDeviceIntent {
      */
     public static final String ACTION_IOT_DEVICE_SYS_SHADOW_GET = "huaweicloud.iot.device.intent.action.SYS.SHADOW.GET";
 
+
+    /**
+     * 网关子设备消息上报
+     */
+    public static final String ACTION_IOT_DEVICE_SYS_SUB_MESSAGES_UP = "huaweicloud.iot.device.intent.action.SYS.SUB.MESSAGES.UP";
+
+    /**
+     * 网关子设备属性上报
+     */
+    public static final String ACTION_IOT_DEVICE_SYS_SUB_PROPERTIES_REPORT = "huaweicloud.iot.device.intent.action.SYS.SUB.PROPERTIES.REPORT";
+
+    /**
+     * 网关子设备状态上报
+     */
+    public static final String ACTION_IOT_DEVICE_SYS_SUB_STATUSES_REPORT = "huaweicloud.iot.device.intent.action.SYS.SUB.STATUSES.REPORT";
+
+    /**
+     * 平台通知网关子设备新增
+     */
+    public static final String ACTION_IOT_DEVICE_SYS_SUB_ADD_DEVICE_NOTIFY = "huaweicloud.iot.device.intent.action.SYS.SUB.ADD.DEVICE.NOTIFY";
+
+    /**
+     * 平台通知网关子设备删除
+     */
+    public static final String ACTION_IOT_DEVICE_SYS_SUB_DELETE_DEVICE_NOTIFY = "huaweicloud.iot.device.intent.action.SYS.SUB.DELETE.DEVICE.NOTIFY";
+
+    /**
+     * 网关新增子设备请求响应
+     */
+    public static final String ACTION_IOT_DEVICE_SYS_SUB_ADD_DEVICE_RESPONSE = "huaweicloud.iot.device.intent.action.SYS.SUB.ADD.DEVICE.RESPONSE";
+
+    /**
+     * 网关删除子设备请求响应
+     */
+    public static final String ACTION_IOT_DEVICE_SYS_SUB_DELETE_DEVICE_RESPONSE = "huaweicloud.iot.device.intent.action.SYS.SUB.DELETE.DEVICE.RESPONSE";
 }

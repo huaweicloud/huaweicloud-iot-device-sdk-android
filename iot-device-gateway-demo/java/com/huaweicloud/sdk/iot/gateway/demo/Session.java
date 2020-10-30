@@ -13,26 +13,33 @@
  *
  * */
 
-package com.huaweicloud.sdk.iot.device.client.requests;
+package com.huaweicloud.sdk.iot.gateway.demo;
 
-import com.google.gson.annotations.SerializedName;
+import io.netty.channel.Channel;
 
-/**
- * 上行获取设备影子数据
- */
-public class ShadowGet {
+public class Session {
 
-    /**
-     * 需要获取设备影子的目标设备ID,可选
-     */
-    @SerializedName("object_device_id")
-    private String deviceId;
+    String nodeId;
+    Channel channel;
+    String deviceId;
 
-    /**
-     * 需要获取设备影子的设备服务ID,不带的话查询所有服务ID的设备影子数据,可选
-     */
-    @SerializedName("service_id")
-    private String serviceId;
+
+    public String getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(String nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
 
     public String getDeviceId() {
         return deviceId;
@@ -42,11 +49,12 @@ public class ShadowGet {
         this.deviceId = deviceId;
     }
 
-    public String getServiceId() {
-        return serviceId;
-    }
-
-    public void setServiceId(String serviceId) {
-        this.serviceId = serviceId;
+    @Override
+    public String toString() {
+        return "Session{"
+                + "nodeId='" + nodeId + '\''
+                + ", channel=" + channel
+                + ", deviceId='" + deviceId + '\''
+                + '}';
     }
 }

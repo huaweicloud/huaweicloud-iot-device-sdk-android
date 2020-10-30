@@ -295,7 +295,6 @@ public class AbstractDevice {
      */
     public void onCommand(String requestId, Command command) {
 
-
         IService service = getService(command.getServiceId());
 
         if (service != null) {

@@ -17,6 +17,7 @@ package com.huaweicloud.sdk.iot.device.transport;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import java.nio.charset.StandardCharsets;
 
 /**

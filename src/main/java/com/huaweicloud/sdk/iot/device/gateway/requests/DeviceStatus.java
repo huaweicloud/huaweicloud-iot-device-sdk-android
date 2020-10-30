@@ -13,43 +13,36 @@
  *
  * */
 
-package com.huaweicloud.sdk.iot.device.client.requests;
+package com.huaweicloud.sdk.iot.device.gateway.requests;
+
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
- * 设备影子下行数据
+ * 设备状态
  */
-public class ShadowMessage implements Parcelable {
+public class DeviceStatus implements Parcelable {
 
-    /**
-     * 设备影子的目标设备ID
-     */
-    @SerializedName("object_device_id")
-    private String deviceId;
+    @SerializedName("device_id")
+    String deviceId;
 
-    /**
-     * 服务影子数据
-     */
-    private List<ShadowData> shadow;
+    String status;
 
-    public ShadowMessage() {
+    public DeviceStatus() {
     }
 
-    protected ShadowMessage(Parcel in) {
+    protected DeviceStatus(Parcel in) {
         deviceId = in.readString();
-        shadow = in.createTypedArrayList(ShadowData.CREATOR);
+        status = in.readString();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(deviceId);
-        dest.writeTypedList(shadow);
+        dest.writeString(status);
     }
 
     @Override
@@ -57,15 +50,15 @@ public class ShadowMessage implements Parcelable {
         return 0;
     }
 
-    public static final Creator<ShadowMessage> CREATOR = new Creator<ShadowMessage>() {
+    public static final Creator<DeviceStatus> CREATOR = new Creator<DeviceStatus>() {
         @Override
-        public ShadowMessage createFromParcel(Parcel in) {
-            return new ShadowMessage(in);
+        public DeviceStatus createFromParcel(Parcel in) {
+            return new DeviceStatus(in);
         }
 
         @Override
-        public ShadowMessage[] newArray(int size) {
-            return new ShadowMessage[size];
+        public DeviceStatus[] newArray(int size) {
+            return new DeviceStatus[size];
         }
     };
 
@@ -77,19 +70,11 @@ public class ShadowMessage implements Parcelable {
         this.deviceId = deviceId;
     }
 
-    public List<ShadowData> getShadow() {
-        return shadow;
+    public String getStatus() {
+        return status;
     }
 
-    public void setShadow(List<ShadowData> shadow) {
-        this.shadow = shadow;
-    }
-
-    @Override
-    public String toString() {
-        return "ShadowMessage{"
-                + "deviceId='" + deviceId + '\''
-                + ", shadow=" + shadow
-                + '}';
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

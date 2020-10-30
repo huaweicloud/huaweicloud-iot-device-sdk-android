@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/start_gateway"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="开启网关" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edt_add_nodeId"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:hint="输入要增加的子设备nodeId" />
+
+            <Button
+                android:id="@+id/test_add_sub"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="网关增加子设备" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edt_online_nodeId"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:hint="输入要上线的子设备nodeId" />
+
+            <Button
+                android:id="@+id/test_sub_online"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="子设备上线" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edt_offline_nodeId"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:hint="输入要下线的子设备nodeId" />
+
+            <Button
+                android:id="@+id/test_sub_offline"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="子设备下线" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edt_delete_nodeId"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:hint="输入要删除的子设备nodeId" />
+
+            <Button
+                android:id="@+id/test_delete_sub"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="网关删除子设备" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/close_gateway"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="关闭网关" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                android:text="操作日志（点击一下可清空）"
+                android:textColor="@color/colorAccent" />
+
+            <EditText
+                android:id="@+id/editText_log"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/edit_text"
+                android:ems="10"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:maxLines="12"
+                android:minLines="8"
+                android:scrollbars="vertical"
+                android:textIsSelectable="true"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

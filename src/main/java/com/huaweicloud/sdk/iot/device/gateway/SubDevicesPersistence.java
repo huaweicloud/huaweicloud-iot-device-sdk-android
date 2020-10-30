@@ -13,32 +13,23 @@
  *
  * */
 
-package com.huaweicloud.sdk.iot.device.client.requests;
+package com.huaweicloud.sdk.iot.device.gateway;
 
-import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
 
-import java.util.List;
+import com.huaweicloud.sdk.iot.device.gateway.requests.DeviceInfo;
+import com.huaweicloud.sdk.iot.device.gateway.requests.SubDevicesInfo;
 
 /**
- * 设备属性内容
+ * 提供子设备信息持久化保存
  */
-public class DeviceProperties {
+public interface SubDevicesPersistence {
 
-    /**
-     * 服务属性列表
-     */
-    List<ServiceProperty> services;
+    DeviceInfo getSubDevice(String nodeId);
 
-    public List<ServiceProperty> getServices() {
-        return services;
-    }
+    int addSubDevices(SubDevicesInfo subDevicesInfo);
 
-    public void setServices(List<ServiceProperty> services) {
-        this.services = services;
-    }
+    int deleteSubDevices(SubDevicesInfo subDevicesInfo);
 
-    @Override
-    public String toString() {
-        return JsonUtil.convertObject2String(this);
-    }
+    long getVersion();
+
 }

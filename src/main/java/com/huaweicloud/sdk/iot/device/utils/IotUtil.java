@@ -20,13 +20,6 @@ import android.util.Log;
 
 import com.huaweicloud.sdk.iot.device.client.ClientConf;
 
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
-
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.sql.Date;
@@ -34,6 +27,13 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.TimeZone;
 import java.util.concurrent.atomic.AtomicLong;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 
 
 /**

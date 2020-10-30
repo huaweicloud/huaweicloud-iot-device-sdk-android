@@ -13,32 +13,21 @@
  *
  * */
 
-package com.huaweicloud.sdk.iot.device.client.requests;
-
-import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
+package com.huaweicloud.sdk.iot.device.gateway.requests;
 
 import java.util.List;
 
 /**
- * 设备属性内容
+ * 网关子设备属性列表
  */
-public class DeviceProperties {
+public class SubDeviceProperties {
+    private List<DeviceProperty> devices;
 
-    /**
-     * 服务属性列表
-     */
-    List<ServiceProperty> services;
-
-    public List<ServiceProperty> getServices() {
-        return services;
+    public List<DeviceProperty> getDevices() {
+        return devices;
     }
 
-    public void setServices(List<ServiceProperty> services) {
-        this.services = services;
-    }
-
-    @Override
-    public String toString() {
-        return JsonUtil.convertObject2String(this);
+    public void setDevices(List<DeviceProperty> devices) {
+        this.devices = devices;
     }
 }
