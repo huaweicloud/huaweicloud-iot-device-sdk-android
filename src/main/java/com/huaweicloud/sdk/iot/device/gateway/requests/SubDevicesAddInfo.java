@@ -25,7 +25,7 @@ import java.util.List;
 public class SubDevicesAddInfo implements Parcelable {
 
     /**
-     * 成功新增的子设备列表详情
+     * Indicates details about new child devices.
      */
     @SerializedName("successful_devices")
     private List<DeviceInfo> successfulDevices;
@@ -34,7 +34,7 @@ public class SubDevicesAddInfo implements Parcelable {
     }
 
     /**
-     * 新增子设备失败的原因
+     * Indicates the cause of a child device addition failure.
      */
     @SerializedName("failed_devices")
     private List<FailedReason> failedDevices;

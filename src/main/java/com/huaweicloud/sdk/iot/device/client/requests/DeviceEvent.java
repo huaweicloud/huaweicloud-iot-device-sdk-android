@@ -22,30 +22,30 @@ import java.util.Map;
 
 
 /**
- * 服务的事件
+ * Provides APIs related to a specific service event.
  */
 public class DeviceEvent {
 
     /**
-     * 事件所属服务id
+     * Indicates a service ID.
      */
     @SerializedName("service_id")
     String serviceId;
 
     /**
-     * 事件类型
+     * Indicates an event type.
      */
     @SerializedName("event_type")
     String eventType;
 
     /**
-     * 事件发生的事件
+     * Indicates the time when the event occurred.
      */
     @SerializedName("event_time")
     String eventTime;
 
     /**
-     * 事件具体的参数
+     * Indicates event parameters.
      */
     Map<String, Object> paras;
 

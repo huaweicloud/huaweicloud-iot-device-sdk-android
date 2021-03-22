@@ -36,27 +36,27 @@ import static com.huaweicloud.sdk.iot.device.constant.IotDeviceIntent.ACTION_IOT
 
 
 /**
- * OTA服务类，提供设备升级相关接口，使用方法：
+ * Provides APIs related to OTA upgrades.
  * IoTDevice device = new IoTDevice(...
  * OTAService otaService = device.getOtaService();
  * otaService.setOtaListener(new OTAListener() {
- * 具体参见OTASample
+ * For details, see OTASample.
  */
 public class OTAService extends AbstractService {
 
-    //升级上报的错误码，用户也可以扩展自己的错误码
-    public static final int OTA_CODE_SUCCESS = 0;//成功
-    public static final int OTA_CODE_BUSY = 1;  //设备使用中
-    public static final int OTA_CODE_SIGNAL_BAD = 2;  //信号质量差
-    public static final int OTA_CODE_NO_NEED = 3;  //已经是最新版本
-    public static final int OTA_CODE_LOW_POWER = 4;  //电量不足
-    public static final int OTA_CODE_LOW_SPACE = 5;  //剩余空间不足
-    public static final int OTA_CODE_DOWNLOAD_TIMEOUT = 6;  //下载超时
-    public static final int OTA_CODE_CHECK_FAIL = 7;  //升级包校验失败
-    public static final int OTA_CODE_UNKNOWN_TYPE = 8;  //升级包类型不支持
-    public static final int OTA_CODE_LOW_MEMORY = 9;  //内存不足
-    public static final int OTA_CODE_INSTALL_FAIL = 10;  //安装升级包失败
-    public static final int OTA_CODE_INNER_ERROR = 255;  // 内部异常
+    // Error codes reported during an upgrade. You can also define your own error codes.
+    public static final int OTA_CODE_SUCCESS = 0;// Upgraded.
+    public static final int OTA_CODE_BUSY = 1;  // The device is in use.
+    public static final int OTA_CODE_SIGNAL_BAD = 2;  // Poor signal.
+    public static final int OTA_CODE_NO_NEED = 3;  // Already the latest version.
+    public static final int OTA_CODE_LOW_POWER = 4;  // Low battery.
+    public static final int OTA_CODE_LOW_SPACE = 5;  // Insufficient free space.
+    public static final int OTA_CODE_DOWNLOAD_TIMEOUT = 6;  // Download timed out.
+    public static final int OTA_CODE_CHECK_FAIL = 7;  // Upgrade package verification failed.
+    public static final int OTA_CODE_UNKNOWN_TYPE = 8;  // Unsupported upgrade package type.
+    public static final int OTA_CODE_LOW_MEMORY = 9;  // Insufficient memory.
+    public static final int OTA_CODE_INSTALL_FAIL = 10;  // Upgrade package installation failed.
+    public static final int OTA_CODE_INNER_ERROR = 255;  // Internal exception.
 
     private static final String TAG = "OTAService";
     private Context mContext;
@@ -66,12 +66,12 @@ public class OTAService extends AbstractService {
     }
 
     /**
-     * 上报升级状态
+     * Reports the upgrade status.
      *
-     * @param result      升级结果
-     * @param progress    升级进度0-100
-     * @param version     当前版本
-     * @param description 具体失败的原因，可选参数
+     * @param result Indicates the upgrade result.
+     * @param progress Indicates the upgrade progress, ranging from 0 to 100.
+     * @param version Indicates the current version.
+     * @param description Indicates the description of the failure. It is optional.
      */
     public void reportOtaStatus(int result, int progress, String version, String description) {
 
@@ -105,10 +105,10 @@ public class OTAService extends AbstractService {
     }
 
     /**
-     * 上报固件版本信息
+     * Reports the firmware version.
      *
-     * @param fwVersion 固件版本
-     * @param swVersion 软件版本
+     * @param fwVersion Indicates a firmware version.
+     * @param swVersion Indicates a software version.
      */
     public void reportVersion(String fwVersion, String swVersion) {
 
@@ -139,9 +139,9 @@ public class OTAService extends AbstractService {
     }
 
     /**
-     * 接收OTA事件处理
+     * Called when an OTA upgrade event is received.
      *
-     * @param deviceEvent 服务事件
+     * @param deviceEvent Indicates the event.
      */
     @Override
     public void onEvent(DeviceEvent deviceEvent) {

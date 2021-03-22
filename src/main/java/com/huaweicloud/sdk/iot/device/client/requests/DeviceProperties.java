@@ -20,12 +20,12 @@ import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
 import java.util.List;
 
 /**
- * 设备属性内容
+ * Provides APIs related to device properties.
  */
 public class DeviceProperties {
 
     /**
-     * 服务属性列表
+     * Indicates service properties.
      */
     List<ServiceProperty> services;
 

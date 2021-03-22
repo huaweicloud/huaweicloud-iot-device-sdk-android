@@ -22,7 +22,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 设备信息
+ * Provides APIs related to device details.
  */
 public class DeviceInfo implements Parcelable {
 

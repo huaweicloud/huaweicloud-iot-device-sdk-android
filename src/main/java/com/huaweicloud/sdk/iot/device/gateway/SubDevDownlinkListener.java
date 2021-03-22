@@ -23,33 +23,33 @@ import com.huaweicloud.sdk.iot.device.client.requests.PropsSet;
 public interface SubDevDownlinkListener {
 
     /**
-     * 子设备命令下发通知
+     * Called when a child device command is received.
      *
-     * @param requestId 请求id
-     * @param command   命令
+     * @param requestId Indicates a request ID.
+     * @param command Indicates the command.
      */
     void onSubdevCommand(String requestId, Command command);
 
     /**
-     * 子设备属性设置通知
+     * Called when a child device property setting request is received.
      *
-     * @param requestId 请求id
-     * @param propsSet  属性设置
+     * @param requestId Indicates a request ID.
+     * @param propsSet Indicates the properties to set.
      */
     void onSubdevPropertiesSet(String requestId, PropsSet propsSet);
 
     /**
-     * 子设备读属性通知
+     * Called when a child device property query request is received.
      *
-     * @param requestId 请求id
-     * @param propsGet  属性查询
+     * @param requestId Indicates a request ID.
+     * @param propsGet Indicates the properties to query.
      */
     void onSubdevPropertiesGet(String requestId, PropsGet propsGet);
 
     /**
-     * 子设备消息下发
+     *  Called when a child device message is received.
      *
-     * @param message 设备消息
+     * @param message Indicates the message.
      */
     void onSubdevMessage(DeviceMessage message);
 }

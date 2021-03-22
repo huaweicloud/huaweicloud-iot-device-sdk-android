@@ -21,30 +21,30 @@ import android.os.Parcelable;
 import java.nio.charset.StandardCharsets;
 
 /**
- * 原始消息类
+ * Provides APIs related to raw messages.
  */
 public class RawMessage implements Parcelable {
 
     /**
-     * 消息主题
+     * Indicates a message topic.
      */
     private String topic;
 
     /**
-     * 消息体
+     * Indicates a message body.
      */
     private byte[] payload;
 
     /**
-     * qos,0或1，默认为1
+     * Indicates a QoS level. The value can be 0 or 1. The default value is 1.
      */
     private int qos;
 
     /**
-     * 构造函数
+     * Constructor used to create a RawMessage object.
      *
-     * @param topic   消息topic
-     * @param payload 消息体
+     * @param topic Indicates the topic of the message to create.
+     * @param payload Indicates the message body.
      */
     public RawMessage(String topic, String payload) {
         this.topic = topic;
@@ -53,11 +53,11 @@ public class RawMessage implements Parcelable {
     }
 
     /**
-     * 构造函数
+     * Constructor used to create a RawMessage object.
      *
-     * @param topic   消息topic
-     * @param payload 消息体
-     * @param qos     qos,0或1
+     * @param topic Indicates the topic of the message to create.
+     * @param payload Indicates the message body.
+     * @param qos Indicates a QoS level. The value can be 0 or 1. 
      */
     public RawMessage(String topic, String payload, int qos) {
         this.qos = qos;
@@ -96,9 +96,9 @@ public class RawMessage implements Parcelable {
     };
 
     /**
-     * 查询topic
+     * Obtains the topic of this message.
      *
-     * @return 消息topic
+     * @return Returns the topic.
      */
     public String getTopic() {
         return topic;
@@ -106,45 +106,45 @@ public class RawMessage implements Parcelable {
 
 
     /**
-     * 设置topic
+     * Sets a topic for this message.
      *
-     * @param topic 消息topic
+     * @param topic Indicates the topic to set.
      */
     public void setTopic(String topic) {
         this.topic = topic;
     }
 
     /**
-     * 查询消息体
+     * Obtains the body of this message.
      *
-     * @return 消息体
+     * @return Returns the message body.
      */
     public byte[] getPayload() {
         return payload;
     }
 
     /**
-     * 设置消息体
+     * Sets a body for this message.
      *
-     * @param payload 消息体
+     * @param payload Indicates the message body to set.
      */
     public void setPayload(byte[] payload) {
         this.payload = payload;
     }
 
     /**
-     * 查询qos
+     * Obtains the QoS level.
      *
-     * @return qos
+     * @return Returns the QoS level.
      */
     public int getQos() {
         return qos;
     }
 
     /**
-     * 设置qos，0或1
+     * Sets a QoS level.
      *
-     * @param qos qos
+     * @param qos Indicates the QoS level to set. The value can be 0 or 1.
      */
     public void setQos(int qos) {
         this.qos = qos;

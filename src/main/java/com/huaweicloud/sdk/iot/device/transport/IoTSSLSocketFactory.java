@@ -26,7 +26,7 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 /**
- * 解决5.0以下版本不支持TLSV1.2的问题
+ * Provides APIs to resolve problems that the platform earlier than 5.0 does not support TLS V1.2.
  */
 public class IoTSSLSocketFactory extends SSLSocketFactory {
 
@@ -43,7 +43,7 @@ public class IoTSSLSocketFactory extends SSLSocketFactory {
     }
 
     /**
-     * 传入默认的sslSocketFactory
+     * Passes the default sslSocketFactory.
      */
     private SSLSocketFactory sslSocketFactory;
 
@@ -52,7 +52,7 @@ public class IoTSSLSocketFactory extends SSLSocketFactory {
     }
 
     /**
-     * 不做修改，使用传入sslSocketFactory的
+     * Not modification is performed. The passed sslSocketFactory is used.
      */
     @Override
     public String[] getDefaultCipherSuites() {
@@ -60,7 +60,7 @@ public class IoTSSLSocketFactory extends SSLSocketFactory {
     }
 
     /**
-     * 不做修改，使用传入sslSocketFactory的
+     * Not modification is performed. The passed sslSocketFactory is used.
      */
     @Override
     public String[] getSupportedCipherSuites() {

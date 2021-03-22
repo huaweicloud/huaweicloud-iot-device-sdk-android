@@ -21,18 +21,18 @@ import java.util.List;
 
 
 /**
- * 设备事件
+ * Provides APIs related to device events.
  */
 public class DeviceEvents {
 
     /**
-     * 设备id
+     * Indicates a device ID.
      */
     @SerializedName("object_device_id")
     String deviceId;
 
     /**
-     * 服务事件列表
+     * Indicates service events.
      */
     @SerializedName("services")
     List<DeviceEvent> services;

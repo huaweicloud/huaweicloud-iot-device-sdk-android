@@ -18,21 +18,21 @@ package com.huaweicloud.sdk.iot.device.client.requests;
 import java.util.Map;
 
 /**
- * 设备属性（V3）
+ * Provides V3 APIs related to device properties.
  */
 public class ServiceData {
     /**
-     * 服务id，和设备模型里一致
+     * Indicates a service ID, which must be the same as that defined in the product model.
      */
     private String serviceId;
 
     /**
-     * 属性变化的时间，格式：yyyyMMddTHHmmssZ，可选，不带以平台收到的时间为准
+     * Indicates the time when the property value was changed, in the format of yyyyMMddTHHmmssZ. It is optional. If it is set to NULL, the time when the platform received the property value is used.
      */
     private String eventTime;
 
     /**
-     * 属性值，具体字段由设备模型定义
+     * Indicates a property value. The property field is defined in the product model.
      */
     private Map<String, Object> serviceData;
 

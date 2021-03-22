@@ -21,23 +21,23 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 /**
- * 服务的属性
+ * Provides APIs related to service properties.
  */
 public class ServiceProperty {
 
     /**
-     * 服务id，和设备模型里一致
+     * Indicates a service ID, which must be the same as that defined in the product model.
      */
     @SerializedName("service_id")
     String serviceId;
 
     /**
-     * 属性值，具体字段由设备模型定义
+     * Indicates a property value. The property field is defined in the product model.
      */
     Map<String, Object> properties;
 
     /**
-     * 属性变化的时间，格式：yyyyMMddTHHmmssZ，可选，不带以平台收到的时间为准
+     * Indicates the time when the property value was changed, in the format of yyyyMMddTHHmmssZ. It is optional. If it is set to NULL, the time when the platform received the property value is used.
      */
     @SerializedName("event_time")
     String eventTime;

@@ -25,7 +25,7 @@ import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
 import java.util.List;
 
 /**
- * 写属性操作
+ * Sets properties.
  */
 public class PropsSet implements Parcelable {
 

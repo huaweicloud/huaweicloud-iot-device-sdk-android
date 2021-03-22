@@ -62,12 +62,12 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
- * 设备客户端，提供和平台的通讯能力，包括：
- * 消息：双向，异步，不需要定义模型
- * 属性：双向，设备可以上报属性，平台可以向设备读写属性，属性需要在模型定义
- * 命令：单向，同步，平台向设备调用设备的命令
- * 事件：双向、异步，需要在模型定义
- * 用户不能直接创建DeviceClient实例，只能先创建IoTDevice实例，然后通过IoTDevice的getClient接口获取DeviceClient实例
+* Provides APIs related to device clients. A device client can exchange the following information with the platform:
+* Messages: Message interactions are bidirectional and asynchronous. Messages do not need to be defined in the product model.
+* Properties: Property interactions are bidirectional. Devices can report properties, and the platform can read properties from and write properties to devices. Properties must be defined in the product model.
+* Commands: Command interactions are unidirectional and synchronous. The platform sends commands to devices.
+* Events: Event interactions are bidirectional and asynchronous. Events must be defined in the product model.
+* You cannot directly create a DeviceClient instance. Instead, create an IoTDevice instance and then call the getClient method of IoTDevice to obtain a DeviceClient instance.
  */
 public class DeviceClient implements RawMessageListener {
 
@@ -85,7 +85,7 @@ public class DeviceClient implements RawMessageListener {
     private int clientThreadCount = 1;
     private LocalBroadcastManager localBroadcastManager;
 
-    // 设备消息上报监听器
+    // Indicates listeners for device message reporting.
     private ActionListener messagesActionListener = new ActionListener() {
         @Override
         public void onSuccess(Object context) {
@@ -209,7 +209,7 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 和平台建立连接，连接成功时，SDK会自动向平台订阅系统定义的topic。
+     * Connects to the platform. When the connection is established, the SDK automatically subscribes to system topics.
      */
     public void connect() {
 
@@ -221,10 +221,23 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 上报设备消息
-     * 如果需要上报子设备消息，需要调用DeviceMessage的setDeviceId接口设置为子设备的设备id
+     * 设置是否支持退避重连， 默认支持。
+     * 退避重连指设备初始化连接过程中，遇到连接失败的情况下，采用指数级算法重连。
+     * 账号密码错误不会重连。
      *
-     * @param deviceMessage 设备消息
+     * @param flag true表示支持退避重连，false表示不支持退避重连
+     */
+    public void setAutoConnect(boolean flag) {
+        if (connection != null) {
+            connection.setAutoConnect(flag);
+        }
+    }
+
+    /**
+     * Reports a device message.
+     * To report a message for a child device, call the setDeviceId API of DeviceMessage to set the device ID of the child device.
+     *
+     * @param deviceMessage Indicates the device message to report.
      */
     public void reportDeviceMessage(DeviceMessage deviceMessage) {
         String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
@@ -232,10 +245,10 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 上报设备消息
+     * Reports a device message with a listener specified.
      *
-     * @param deviceMessage 设备消息
-     * @param listener      监听器
+     * @param deviceMessage Indicates the device message to report.
+     * @param listener Indicates the listener.
      */
     public void reportDeviceMessage(DeviceMessage deviceMessage, ActionListener listener) {
         String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
@@ -243,7 +256,7 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 获取平台的设备影子数据
+     * Obtains the device shadow data from the platform.
      */
     public void getShadowMessage(ShadowGet shadowGet) {
         UUID uuid = UUID.randomUUID();
@@ -253,10 +266,10 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 上报设备消息，支持指定qos
+     * Reports a device message with a specified QoS level.
      *
-     * @param deviceMessage 设备消息
-     * @param qos           消息qos，0或1
+     * @param deviceMessage Indicates the device message to report.
+     * @param qos Indicates the QoS level. The value can be 0 or 1.
      */
     public void reportDeviceMessage(DeviceMessage deviceMessage, int qos) {
         String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
@@ -267,23 +280,23 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 发布原始消息，原始消息和设备消息（DeviceMessage）的区别是：
-     * 1、可以自定义topic，该topic需要在平台侧配置
-     * 2、不限制payload的格式
-     *
-     * @param rawMessage 原始消息
-     * @param listener   监听器
+     * Publishes a raw message. The differences between raw messages and device messages are as follows:
+     * 1. A topic can be customized. The topic must be configured on the platform.
+     * 2. The payload format is not limited.
+     * 
+     * @param rawMessage Indicates the raw message to report.
+     * @param listener Indicates a listener.
      */
     public void publishRawMessage(RawMessage rawMessage, ActionListener listener) {
         connection.publishMessage(rawMessage, listener);
     }
 
     /**
-     * 发布自定义topic
+     * Publishes a custom topic.
      *
-     * @param topicName 自定义的topic去除固定前缀后名称
-     * @param message   上报消息内容
-     * @param qos       消息qos，0或1
+     * @param topicName Indicates the name of the custom topic, excluding the fixed prefix.
+     * @param message Indicates the message content.
+     * @param qos Indicates a QoS level. The value can be 0 or 1.
      */
     public void publishTopic(final String topicName, String message, int qos) {
         String topic = "$oc/devices/" + this.deviceId + "/user/" + topicName;
@@ -312,18 +325,18 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 上报设备属性
+     * Reports device properties.
      *
-     * @param properties 设备属性列表
+     * @param properties Indicates the properties to report.
      */
     public void reportProperties(List<ServiceProperty> properties) {
         reportPropertiesForInner(properties, propertyActionListener);
     }
 
     /**
-     * 向平台上报设备属性（V3接口）
+     * Reports device properties. This is a V3 API.
      *
-     * @param devicePropertiesV3 设备上报的属性
+     * @param devicePropertiesV3 Indicates the properties to report.
      */
     public void reportPropertiesV3(DevicePropertiesV3 devicePropertiesV3) {
         String topic = "/huawei/v1/devices/" + this.deviceId + "/data/json";
@@ -333,9 +346,9 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 向平台上报设备属性（V3接口）
+     * Reports device properties in binary code streams. This is a V3 API.
      *
-     * @param bytes 设备上报的码流
+     * @param bytes Indicates the binary code stream to report.
      */
     public void reportBinaryV3(Byte[] bytes) {
 
@@ -347,9 +360,9 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 向平台上报V3命令响应
+     * Reports a V3 command response.
      *
-     * @param commandRspV3 命令响应结果
+     * @param commandRspV3 Indicates the command response to report.
      */
     public void responseCommandV3(CommandRspV3 commandRspV3) {
 
@@ -359,9 +372,9 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 向平台上报V3命令响应（码流）
+     * Reports a V3 command response in binary code streams.
      *
-     * @param bytes 响应码流
+     * @param bytes Indicates the binary code stream to report. 
      */
     public void responseCommandBinaryV3(Byte[] bytes) {
 
@@ -371,9 +384,9 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 内部上报设备属性
+     * Internally reports device properties.
      *
-     * @param properties 设备属性列表
+     * @param properties Indicates the properties to report.
      */
     public void reportPropertiesForInner(List<ServiceProperty> properties, ActionListener actionListener) {
 
@@ -457,7 +470,7 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 处理平台下发的设备命令
+     * Processes a device command delivered by the platform.
      */
     private void handleCommand(String requestId, Command command) {
         Intent intent = new Intent(IotDeviceIntent.ACTION_IOT_DEVICE_SYS_COMMANDS);
@@ -485,11 +498,17 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 处理平台下发的消息
+     * Processes a message delivered by the platform.
      *
-     * @param deviceMessage
+     * @param deviceMessage Indicates the device message delivered.
      */
     private void handleDeviceMessage(DeviceMessage deviceMessage) {
+        //增加设备方法重引导功能，下发的消息内容为BootstrapRequestTrigger，则需要设备发起重引导
+        if ("BootstrapRequestTrigger".equals(deviceMessage.getContent())) {
+            Intent triggerIntent = new Intent(IotDeviceIntent.ACTION_IOT_DEVICE_BOOTSTRAP_REQUEST_TRIGGER);
+            localBroadcastManager.sendBroadcast(triggerIntent);
+        }
+
         Intent intent = new Intent(IotDeviceIntent.ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN);
         intent.putExtra(BaseConstant.SYS_DOWN_MESSAGES, deviceMessage);
         localBroadcastManager.sendBroadcast(intent);
@@ -581,7 +600,7 @@ public class DeviceClient implements RawMessageListener {
             return;
         }
 
-        //只处理直连设备的，子设备的由AbstractGateway处理
+        // Only messages delivered to directly connected devices are processed. Messages delivered to child devices are processed by AbstractGateway.
         if (shadowMessage.getDeviceId() == null || shadowMessage.getDeviceId().equals(getDeviceId())) {
             handleShadow(requestId, shadowMessage);
             return;
@@ -602,10 +621,10 @@ public class DeviceClient implements RawMessageListener {
 
 
     /**
-     * 上报命令响应
+     * Reports a command response.
      *
-     * @param requestId  请求id，响应的请求id必须和请求的一致
-     * @param commandRsp 命令响应
+     * @param requestId Indicates the request ID, which must be the same as that in the request.
+     * @param commandRsp Indicates the command response to report.
      */
     public void respondCommand(String requestId, CommandRsp commandRsp) {
 
@@ -615,10 +634,10 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 上报读属性响应
+     * Reports a response to a property query request.
      *
-     * @param requestId 请求id，响应的请求id必须和请求的一致
-     * @param services  服务属性
+     * @param requestId Indicates the request ID, which must be the same as that in the request.
+     * @param services Indicates service properties.
      */
     public void respondPropsGet(String requestId, List<ServiceProperty> services) {
 
@@ -631,10 +650,10 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 上报写属性响应
+     * Reports a response to a property setting request.
      *
-     * @param requestId 请求id，响应的请求id必须和请求的一致
-     * @param iotResult 写属性结果
+     * @param requestId Indicates the request ID, which must be the same as that in the request.
+     * @param iotResult Indicates the property setting result.
      */
     public void respondPropsSet(String requestId, IotResult iotResult) {
 
@@ -644,9 +663,9 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 获取设备id
+     * Obtains the device ID.
      *
-     * @return 设备id
+     * @return Returns the device ID.
      */
     public String getDeviceId() {
         return deviceId;
@@ -654,10 +673,10 @@ public class DeviceClient implements RawMessageListener {
 
 
     /**
-     * 订阅自定义topic。系统topic由SDK自动订阅，此接口只能用于订阅自定义topic
+     * Subscribes to a custom topic. System topics are automatically subscribed by the SDK. This method can be used only to subscribe to custom topics.
      *
-     * @param topicName 自定义的topic去除固定前缀后名称
-     * @param qos       消息qos，0或1
+     * @param topicName Indicates the name of the custom topic, excluding the fixed prefix.
+     * @param qos Indicates a QoS level. The value can be 0 or 1.
      */
     public void subscribeTopic(final String topicName, int qos) {
         String topic = "$oc/devices/" + this.deviceId + "/user/" + topicName;
@@ -696,10 +715,10 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 订阅V3Topic
+     * Subscribes to a V3 topic.
      *
-     * @param topic 订阅topic
-     * @param qos   qos
+     * @param topic Indicates the topic to subscribe.
+     * @param qos Indicates the QoS.
      */
     public void subscribeTopicV3(String topic, int qos) {
         connection.subscribeTopic(topic, null, qos);
@@ -710,10 +729,10 @@ public class DeviceClient implements RawMessageListener {
     }
 
     /**
-     * 事件上报
+     * Reports an event.
      *
-     * @param event    事件
-     * @param listener 监听器
+     * @param event Indicates the event to report.
+     * @param listener Indicates a listener.
      */
     public void reportEvent(DeviceEvent event, ActionListener listener) {
 

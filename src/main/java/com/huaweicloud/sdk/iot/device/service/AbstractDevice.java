@@ -31,7 +31,9 @@ import com.huaweicloud.sdk.iot.device.client.requests.PropsGet;
 import com.huaweicloud.sdk.iot.device.client.requests.PropsSet;
 import com.huaweicloud.sdk.iot.device.client.requests.ServiceProperty;
 import com.huaweicloud.sdk.iot.device.filemanager.FileManager;
+import com.huaweicloud.sdk.iot.device.log.LogService;
 import com.huaweicloud.sdk.iot.device.ota.OTAService;
+import com.huaweicloud.sdk.iot.device.timesync.TimeSyncService;
 import com.huaweicloud.sdk.iot.device.transport.ActionListener;
 import com.huaweicloud.sdk.iot.device.utils.IotUtil;
 
@@ -44,7 +46,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
- * 抽象设备类
+ * An abstract device class.
  */
 public class AbstractDevice {
 
@@ -55,15 +57,17 @@ public class AbstractDevice {
     private Map<String, AbstractService> services = new ConcurrentHashMap<String, AbstractService>();
     private OTAService otaService;
     private FileManager fileManager;
+    private TimeSyncService timeSyncService;
+    private LogService logService;
     private Context mContext;
 
     /**
-     * 构造函数，使用密码创建设备
+     * Constructor used to create an AbstractDevice object. In this method, secret authentication is used.
      *
-     * @param mContext     上下文
-     * @param serverUri    平台访问地址，比如ssl://iot-acc.cn-north-4.myhuaweicloud.com:8883
-     * @param deviceId     设备id
-     * @param deviceSecret 设备密码
+     * @param mContext Indicates the context.
+     * @param serverUri Indicates the device access address, for example, ssl://iot-acc.cn-north-4.myhuaweicloud.com:8883.
+     * @param deviceId Indicates a device ID.
+     * @param deviceSecret Indicates a secret.
      */
     public AbstractDevice(Context mContext, String serverUri, String deviceId, String deviceSecret) {
 
@@ -80,13 +84,13 @@ public class AbstractDevice {
     }
 
     /**
-     * 构造函数，使用证书创建设备
+     * Constructor used to create an AbstractDevice object. In this method, certificate authentication is used.
      *
-     * @param mContext    上下文
-     * @param serverUri   平台访问地址，比如ssl://iot-acc.cn-north-4.myhuaweicloud.com:8883
-     * @param deviceId    设备id
-     * @param keyStore    证书容器
-     * @param keyPassword 证书密码
+     * @param mContext Indicates the context.
+     * @param serverUri Indicates the device access address, for example, ssl://iot-acc.cn-north-4.myhuaweicloud.com:8883.
+     * @param deviceId Indicates a device ID.
+     * @param keyStore Indicates a certificate keystore.
+     * @param keyPassword Indicates the password of the certificate.
      */
     public AbstractDevice(Context mContext, String serverUri, String deviceId, KeyStore keyStore, String keyPassword) {
 
@@ -103,10 +107,10 @@ public class AbstractDevice {
     }
 
     /**
-     * 构造函数，直接使用客户端配置创建设备，一般不推荐这种做法
+     * Constructor used to create an AbstractDevice object. In this method, the client configuration is used. This method is not recommended.
      *
-     * @param mContext   上下文
-     * @param clientConf 客户端配置
+     * @param mContext Indicates the context.
+     * @param clientConf Indicates the client configuration.
      */
     public AbstractDevice(Context mContext, ClientConf clientConf) {
         this.client = new DeviceClient(mContext, clientConf, this);
@@ -117,36 +121,41 @@ public class AbstractDevice {
     }
 
     /**
-     * 初始化系统默认service，系统service以$作为开头
+     * Initializes the default system service, which starts with a dollar sign ($).
      */
     private void initSysServices() {
         this.otaService = new OTAService(mContext);
         this.addService("$ota", otaService);
-        this.addService("$sdk", new SdkInfo());
+        this.addService("$sdk", new SdkInfo(mContext));
         this.fileManager = new FileManager(mContext);
         this.addService("$file_manager", fileManager);
+        this.timeSyncService = new TimeSyncService(mContext);
+        this.addService("$time_sync", timeSyncService);
+        this.logService = new LogService(mContext);
+        this.addService("$log", logService);
+
     }
 
 
     /**
-     * 初始化，创建到平台的连接
+     * Creates a connection to the platform.
      */
     public void init() {
         client.connect();
     }
 
     /**
-     * 关闭到平台的连接
+     * Closes the connection to the platform.
      */
     public void close() {
         client.close();
     }
 
     /**
-     * 添加服务。用户基于AbstractService定义自己的设备服务，并添加到设备
+     * Adds a service. You can use AbstractService to define your device service and add the service to the device.
      *
-     * @param serviceId     服务id，要和设备模型定义一致
-     * @param deviceService 服务实例
+     * @param serviceId Indicates a service ID, which must be defined in the device model.
+     * @param deviceService Indicates the service to add.
      */
     public void addService(String serviceId, AbstractService deviceService) {
 
@@ -161,9 +170,9 @@ public class AbstractDevice {
     }
 
     /**
-     * 删除服务
+     * Deletes a service.
      *
-     * @param serviceId 服务id
+     * @param serviceId Indicates the service ID.
      */
     public void delService(String serviceId) {
         services.remove(serviceId);
@@ -171,10 +180,10 @@ public class AbstractDevice {
 
 
     /**
-     * 查询服务
+     * Obtains a service.
      *
-     * @param serviceId 服务id
-     * @return AbstractService 服务实例
+     * @param serviceId Indicates the service ID.
+     * @return Returns an AbstractService  instance.
      */
     public AbstractService getService(String serviceId) {
         if (TextUtils.isEmpty(serviceId)) {
@@ -186,10 +195,10 @@ public class AbstractDevice {
 
 
     /**
-     * 触发属性变化，SDK会上报变化的属性
+     * Reports a property change for a specific service. The SDK reports the changed properties.
      *
-     * @param serviceId  服务id
-     * @param properties 属性列表
+     * @param serviceId Indicates the service ID.
+     * @param properties Indicates the properties.
      */
     protected void firePropertiesChanged(String serviceId, String... properties) {
         AbstractService deviceService = getService(serviceId);
@@ -223,9 +232,9 @@ public class AbstractDevice {
     }
 
     /**
-     * 触发多个服务的属性变化，SDK自动上报变化的属性到平台
+     * Reports a property change for multiple services. The SDK reports the changed properties.
      *
-     * @param serviceIds 发生变化的服务id列表
+     * @param serviceIds Indicates the service IDs whose properties are changed.
      */
     protected void fireServicesChanged(List<String> serviceIds) {
         final List<ServiceProperty> serviceProperties = new ArrayList<ServiceProperty>();
@@ -268,9 +277,9 @@ public class AbstractDevice {
     }
 
     /**
-     * 获取设备客户端。获取到设备客户端后，可以直接调用客户端提供的消息、属性、命令等接口
+     * Obtains a device client. After a device client is obtained, you can call the message, property, and message APIs provided by the device client.
      *
-     * @return 设备客户端实例
+     * @return Returns a DeviceClient instance.
      */
     public DeviceClient getClient() {
         return client;
@@ -278,9 +287,9 @@ public class AbstractDevice {
 
 
     /**
-     * 查询设备id
+     * Obtains the device ID.
      *
-     * @return 设备id
+     * @return Returns the device ID.
      */
     public String getDeviceId() {
         return deviceId;
@@ -288,10 +297,10 @@ public class AbstractDevice {
 
 
     /**
-     * 命令回调函数，由SDK自动调用
+     * Called when a command is received. This method is automatically called by the SDK.
      *
-     * @param requestId 请求id
-     * @param command   命令
+     * @param requestId Indicates a request ID.
+     * @param command Indicates a command.
      */
     public void onCommand(String requestId, Command command) {
 
@@ -305,10 +314,10 @@ public class AbstractDevice {
     }
 
     /**
-     * 属性设置回调，，由SDK自动调用
+     * Called when a property setting request is received. This method is automatically called by the SDK.
      *
-     * @param requestId 请求id
-     * @param propsSet  属性设置请求
+     * @param requestId Indicates a request ID.
+     * @param propsSet Indicates the property setting request.
      */
     public void onPropertiesSet(String requestId, PropsSet propsSet) {
 
@@ -319,7 +328,7 @@ public class AbstractDevice {
 
             if (deviceService != null) {
                 existedDeviceService = true;
-                //如果部分失败直接返回
+                // Returns the result for partial failure.
                 IotResult result = deviceService.onWrite(serviceProp.getProperties());
                 if (result.getResultCode() != IotResult.SUCCESS.getResultCode()) {
                     client.respondPropsSet(requestId, result);
@@ -334,16 +343,16 @@ public class AbstractDevice {
     }
 
     /**
-     * 属性查询回调，由SDK自动调用
+     * Called when a property query request is received. This method is automatically called by the SDK.
      *
-     * @param requestId 请求id
-     * @param propsGet  属性查询请求
+     * @param requestId Indicates a request ID.
+     * @param propsGet Indicates the property query request.
      */
     public void onPropertiesGet(String requestId, PropsGet propsGet) {
 
         List<ServiceProperty> serviceProperties = new ArrayList<ServiceProperty>();
         boolean existedDeviceService = false;
-        //查询所有
+        // Queries all service IDs.
         if (propsGet.getServiceId() == null) {
 
             for (String ss : services.keySet()) {
@@ -377,13 +386,13 @@ public class AbstractDevice {
     }
 
     /**
-     * 事件回调，由SDK自动调用
+     * Called when events are received. This method is automatically called by the SDK.
      *
-     * @param deviceEvents 设备事件
+     * @param deviceEvents Indicates the events.
      */
     public void onEvent(DeviceEvents deviceEvents) {
 
-        //子设备的
+        // For a child device
         if (deviceEvents.getDeviceId() != null && !deviceEvents.getDeviceId().equals(getDeviceId())) {
             return;
         }
@@ -397,30 +406,47 @@ public class AbstractDevice {
     }
 
     /**
-     * 消息回调，由SDK自动调用
+     * Called when a message is reported. This method is automatically called by the SDK.
      *
-     * @param message 消息
+     * @param message Indicates the message.
      */
     public void onDeviceMessage(DeviceMessage message) {
 
     }
 
     /**
-     * 获取OTA服务
+     * Obtains an OTA service.
      *
-     * @return OTAService
+     * @return Returns an OTAService instance.
      */
     public OTAService getOtaService() {
         return otaService;
     }
 
     /**
-     * 获取文件上传下载服务
+     * Obtains a file upload/download service.
      *
-     * @return FileManager
+     * @return Returns a FileManager instance.
      */
     public FileManager getFileManager() {
         return fileManager;
     }
 
+    /**
+     * 获取时间同步服务
+     *
+     * @return TimeSyncService
+     */
+    public TimeSyncService getTimeSyncService() {
+        return timeSyncService;
+    }
+
+    /**
+     * 获取日志服务
+     *
+     * @return LogService
+     */
+    public LogService getLogService() {
+        return logService;
+    }
 }

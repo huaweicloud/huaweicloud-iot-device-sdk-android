@@ -36,7 +36,7 @@ import static com.huaweicloud.sdk.iot.device.constant.IotDeviceIntent.ACTION_IOT
 
 
 /**
- * 未完成
+ * Not completed
  */
 public class FileManager extends AbstractService {
 
@@ -49,10 +49,10 @@ public class FileManager extends AbstractService {
     }
 
     /**
-     * 获取文件上传url
+     * Obtains the URL for file upload.
      *
-     * @param fileName       文件名
-     * @param fileAttributes 文件属性
+     * @param fileName Indicates the name of the file to upload.
+     * @param fileAttributes Indicates the file attributes.
      */
     public void getUploadUrl(String fileName, Map<String, Object> fileAttributes) {
 
@@ -83,10 +83,10 @@ public class FileManager extends AbstractService {
     }
 
     /**
-     * 获取文件下载url
+     * Obtains the URL for file download.
      *
-     * @param fileName       下载文件名
-     * @param fileAttributes 文件属性
+     * @param fileName Indicates the file name.
+     * @param fileAttributes Indicates the file attributes.
      */
     public void getDownloadUrl(String fileName, Map<String, Object> fileAttributes) {
 
@@ -117,9 +117,9 @@ public class FileManager extends AbstractService {
     }
 
     /**
-     * 设备上报文件上传结果
+     * Reports the file upload result.
      *
-     * @param paras 事件参数
+     * @param paras Indicates event parameters.
      */
     public void uploadResultReport(Map<String, Object> paras) {
 
@@ -145,9 +145,9 @@ public class FileManager extends AbstractService {
     }
 
     /**
-     * 设备上报文件下载结果
+     * Reports the file download result.
      *
-     * @param paras 事件参数
+     * @param paras Indicates event parameters.
      */
     public void downloadResultReport(Map<String, Object> paras) {
         DeviceEvent deviceEvent = new DeviceEvent();
@@ -172,9 +172,9 @@ public class FileManager extends AbstractService {
     }
 
     /**
-     * 接收文件处理事件
+     * Called when the file is processed.
      *
-     * @param deviceEvent 服务事件
+     * @param deviceEvent Indicates the service event.
      */
     @Override
     public void onEvent(DeviceEvent deviceEvent) {

@@ -27,30 +27,30 @@ import java.util.List;
 
 
 /**
- * IOT设备类，SDK的入口类，提供两种使用方式：
- * 1、面向物模型编程：根据物模型实现设备服务，SDK自动完成设备和平台之间的通讯。这种方式简单易用，适合大多数场景
+ * Provides an IoT device class, which is the entry class of the SDK. The following two usage methods are provided:
+ * 1. Product model programming: Implement services based on product models. The SDK automatically completes communications between devices and the platform. This method is easy to use and suitable for most scenarios.
  * public class SmokeDetectorService extends AbstractService {
  *
  * @Property int smokeAlarm = 1;
  * <p>
  * public int getSmokeAlarm() {
- * //从设备读取属性
+ * // Read properties from a device.
  * }
  * <p>
  * public void setSmokeAlarm(int smokeAlarm) {
- * //向设备写属性
+ * // Write properties to a device.
  * }
  * }
  * <p>
- * //创建设备
+ * // Create a device.
  * IoTDevice device = new IoTDevice(serverUri, deviceId, secret);
- * //添加服务
+ * // Add a service.
  * SmokeDetectorService smokeDetectorService = new SmokeDetectorService();
  * device.addService("smokeDetector", smokeDetectorService);
  * device.init();
  * <p>
  * <p>
- * 2、面向通讯接口编程：获取设备的客户端，直接和平台进行通讯。这种方式更复杂也更灵活
+ * 2. Communication interface programming: Obtain the device client and enable it to directly communicate with the platform. This method is more complex and flexible.
  * <p>
  * IoTDevice device = new IoTDevice(serverUri, deviceId, secret);
  * device.init();
@@ -60,12 +60,12 @@ import java.util.List;
 public class IoTDevice extends AbstractDevice {
 
     /**
-     * 构造函数，使用密码创建设备
+     * A constructor that creates an IoTDevice instance. In this method, secret authentication is used.
      *
-     * @param mContext      上下文
-     * @param serverUri    平台访问地址，比如ssl://iot-mqtts.cn-north-4.myhuaweicloud.com:8883
-     * @param deviceId     设备id
-     * @param deviceSecret 设备密码
+     * @param mContext Indicates the context.
+     * @param serverUri Indicates the device access address, for example, ssl://iot-mqtts.cn-north-4.myhuaweicloud.com:8883.
+     * @param deviceId Indicates a device ID.
+     * @param deviceSecret Indicates a secret.
      */
     public IoTDevice(Context mContext, String serverUri, String deviceId, String deviceSecret) {
         super(mContext, serverUri, deviceId, deviceSecret);
@@ -73,13 +73,13 @@ public class IoTDevice extends AbstractDevice {
     }
 
     /**
-     * 构造函数，使用证书创建设备
+     * A constructor that creates an IoTDevice instance. In this method, certificate authentication is used.
      *
-     * @param mContext      上下文
-     * @param serverUri   平台访问地址，比如ssl://iot-mqtts.cn-north-4.myhuaweicloud.com:8883
-     * @param deviceId    设备id
-     * @param keyStore    证书容器
-     * @param keyPassword 证书密码
+     * @param mContext Indicates the context.
+     * @param serverUri Indicates the device access address, for example, ssl://iot-mqtts.cn-north-4.myhuaweicloud.com:8883.
+     * @param deviceId Indicates a device ID.
+     * @param keyStore Indicates a keystore of the certificate.
+     * @param keyPassword Indicates the password of the certificate.
      */
     public IoTDevice(Context mContext, String serverUri, String deviceId, KeyStore keyStore, String keyPassword) {
 
@@ -87,17 +87,17 @@ public class IoTDevice extends AbstractDevice {
     }
 
     /**
-     * 构造函数，直接使用客户端配置创建设备，一般不推荐这种做法
+     * A constructor that creates an IoTDevice instance. In this method, the client configuration is used. This method is not recommended.
      *
-     * @param mContext      上下文
-     * @param clientConf 客户端配置
+     * @param mContext Indicates the context.
+     * @param clientConf Indicates the client configuration.
      */
     public IoTDevice(Context mContext, ClientConf clientConf) {
         super(mContext, clientConf);
     }
 
     /**
-     * 初始化，创建到平台的连接
+     * Creates a connection to the platform.
      *
      */
     public void init() {
@@ -105,7 +105,7 @@ public class IoTDevice extends AbstractDevice {
     }
 
     /**
-     * 关闭到平台的连接
+     * Closes the connection to the platform.
      *
      */
     public void close() {
@@ -113,10 +113,10 @@ public class IoTDevice extends AbstractDevice {
     }
 
     /**
-     * 添加服务。用户基于AbstractService定义自己的设备服务，并添加到设备
+     * Adds a service. You can use AbstractService to define your own service and add the service to the device.
      *
-     * @param serviceId     服务id，要和设备模型定义一致
-     * @param deviceService 服务实例
+     * @param serviceId Indiates a dervice ID, which must be defined in the product model.
+     * @param deviceService Indciates the service to add.
      */
     public void addService(String serviceId, AbstractService deviceService) {
 
@@ -125,10 +125,10 @@ public class IoTDevice extends AbstractDevice {
 
 
     /**
-     * 查询服务
+     * Obtains a service.
      *
-     * @param serviceId 服务id
-     * @return AbstractService 服务实例
+     * @param serviceId Indicates the service ID.
+     * @return Returns an AbstractService instance.
      */
     public AbstractService getService(String serviceId) {
 
@@ -137,28 +137,28 @@ public class IoTDevice extends AbstractDevice {
 
 
     /**
-     * 触发属性变化，SDK会上报变化的属性
+     * Reports a property change for a specific service. The SDK reports the changed properties.
      *
-     * @param serviceId  服务id
-     * @param properties 属性列表
+     * @param serviceId Indicates the service ID.
+     * @param properties Indicates the properties.
      */
     public void firePropertiesChanged(String serviceId, String... properties) {
         super.firePropertiesChanged(serviceId, properties);
     }
 
     /**
-     * 触发多个服务的属性变化，SDK自动上报变化的属性到平台
+     * Reports a property change for multiple services. The SDK reports the changed properties.
      *
-     * @param serviceIds 发生变化的服务id列表
+     * @param serviceIds Indicates the service IDs whose properties are changed.
      */
     public void fireServicesChanged(List<String> serviceIds) {
         super.fireServicesChanged(serviceIds);
     }
 
     /**
-     * 获取设备客户端。获取到设备客户端后，可以直接调用客户端提供的消息、属性、命令等接口
+     * Obtains a device client. After a device client is obtained, you can call the message, property, and command APIs provided by the device client.
      *
-     * @return 设备客户端实例
+     * @return Returns a DeviceClient instance.
      */
     public DeviceClient getClient() {
         return super.getClient();

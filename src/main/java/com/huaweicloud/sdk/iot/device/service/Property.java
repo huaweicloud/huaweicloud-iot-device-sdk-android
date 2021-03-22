@@ -19,28 +19,28 @@ package com.huaweicloud.sdk.iot.device.service;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * 属性
+ * Properties
  */
-@Documented
 @Inherited
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
 public @interface Property {
 
     /**
-     * 属性是否可写。注：所有属性默认都可读
+     * Checks whether this property is writable. By default, all properties are readable.
      *
-     * @return true表示可写
+     * @return Returns true if the property is writable; returns false otherwise.
      */
     boolean writeable() default true;
 
     /**
-     * @return 属性名，不提供默认为字段名
+     * @return Returns the property name. If it is NULL, the field name is used by default.
      */
     String name() default "";
 

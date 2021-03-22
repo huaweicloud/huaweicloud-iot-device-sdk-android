@@ -16,47 +16,62 @@
 package com.huaweicloud.sdk.iot.device.transport;
 
 /**
- * IOT连接，代表设备和平台之间的一个连接
+ * Provides APIs related to connections between the platform and the device.
  */
 public interface Connection {
 
     /**
-     * 建立连接
+     * Creates a connection.
      */
     void connect();
 
     /**
-     * 发布消息
+     * Publishes a message.
      *
-     * @param message  消息
-     * @param listener 发布监听器
+     * @param message Indicates the message to publish.
+     * @param listener Indicates a listener to listen to message publish.
      */
     void publishMessage(RawMessage message, ActionListener listener);
 
     /**
-     * 关闭连接
+     * Closes the connection.
      */
     void close();
 
     /**
-     * 是否连接中
+     * Checks whether the device is connected to the platform.
      *
-     * @return true表示在连接中，false表示断连
+     * @return Returns true if the device is connected to the platform; returns false otherwise.
      */
     boolean isConnected();
 
     /**
-     * 设置连接监听器
+     * Sets a connection listener.
      *
-     * @param connectListener 连接监听器
+     * @param connectListener Indicates the listener to set.
      */
     void setConnectListener(ConnectListener connectListener);
 
     /**
-     * @param topic          订阅自定义topic。注意SDK会自动订阅平台定义的topic
-     * @param actionListener 监听订阅是否成功
-     * @param qos            qos
+     * @param topic Indicates the custom topic to subscribe. The SDK automatically subscribes to system topics.
+     * @param actionListener Indicates a listener to listen to whether the subscription is successful.
+     * @param qos Indicates a QoS level.
      */
     void subscribeTopic(String topic, ActionListener actionListener, int qos);
 
+    /**
+     * 设置是否支持退避重连， 默认支持。
+     * 退避重连指设备初始化连接过程中，遇到连接失败的情况下，采用指数级算法重连。
+     * 账号密码错误不会重连。
+     *
+     * @param flag true表示支持退避重连，false表示不支持退避重连
+     */
+    void setAutoConnect(boolean flag);
+
+    /**
+     * 设置MQTT连接的类型， 默认为设备接入
+     *
+     * @param type 0设备接入，1设备引导
+     */
+    void setConnectType(int type);
 }

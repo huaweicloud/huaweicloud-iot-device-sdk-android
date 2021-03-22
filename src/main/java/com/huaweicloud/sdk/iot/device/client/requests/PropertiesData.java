@@ -23,17 +23,17 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Map;
 
 /**
- * 影子设备的属性列表
+ * Provides APIs related to device shadow properties.
  */
 public class PropertiesData implements Parcelable {
 
     /**
-     * 属性值，具体字段由设备模型定义
+     * Indicates a property value. The property field is defined in the product model.
      */
     private Map<String, Object> properties;
 
     /**
-     * 属性变化的时间，格式：yyyyMMddTHHmmssZ，可选，不带以平台收到的时间为准
+     * Indicates the time when the property value was changed, in the format of yyyyMMddTHHmmssZ. It is optional. If it is set to NULL, the time when the platform received the property value is used.
      */
     @SerializedName("event_time")
     private String eventTime;

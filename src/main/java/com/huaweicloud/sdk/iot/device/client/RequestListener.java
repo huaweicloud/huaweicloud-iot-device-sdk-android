@@ -16,14 +16,14 @@
 package com.huaweicloud.sdk.iot.device.client;
 
 /**
- * 请求监听器
+ * Listens to requests.
  */
 public interface RequestListener {
 
     /**
-     * 请求执行完成通知
+     * Called when the request execution is complete.
      *
-     * @param result 请求执行结果
+     * @param result Indicates the request execution result.
      */
     void onFinish(String result);
 }

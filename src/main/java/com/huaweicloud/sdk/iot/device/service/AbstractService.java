@@ -34,7 +34,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * 抽象服务类，提供了属性自动读写和命令调用能力，用户可以继承此类，根据物模型定义自己的服务
+ * Provides automatic properties read/write and command invoking capabilities. You can inherit this class and define your own services based on the product model.
  */
 public abstract class AbstractService implements IService {
 
@@ -74,7 +74,7 @@ public abstract class AbstractService implements IService {
                 writeableFields.put(name, field);
             }
 
-            //这里key是字段名,pair里保存属性名
+            // Key indicates the field name, and the property name is stored in the pair.
             readableFields.put(field.getName(), new FieldPair(name, field));
         }
 
@@ -129,17 +129,17 @@ public abstract class AbstractService implements IService {
 
 
     /**
-     * 读属性回调
+     * Called when a property read request is received.
      *
-     * @param fields 指定读取的字段名，不指定则读取全部可读字段
-     * @return 属性值
+     * @param fields Indicates the names of fields to read. If it is set to NULL, all fields are read.
+     * @return Returns the property values.
      */
     @Override
     public Map<String, Object> onRead(String... fields) {
 
         Map<String, Object> ret = new HashMap<String, Object>();
 
-        //读取指定的字段
+        // Reads specified fields.
         if (fields.length > 0) {
             for (String fieldName : fields) {
 
@@ -157,7 +157,7 @@ public abstract class AbstractService implements IService {
             return ret;
         }
 
-        //读取全部字段
+        // Reads all fields.
         for (Map.Entry<String, FieldPair> entry : readableFields.entrySet()) {
             Object value = getFiledValue(entry.getKey());
             if (value != null) {
@@ -170,11 +170,11 @@ public abstract class AbstractService implements IService {
 
 
     /**
-     * 写属性。收到平台下发的写属性操作时此接口被自动调用。
-     * 如果用户希望在写属性时增加额外处理，可以重写此接口
+     * Called when a property write request is received.
+     * To add extra processing when writing properties, you can override this method.
      *
-     * @param properties 平台期望属性的值
-     * @return 操作结果
+     * @param properties Indicates the desired properties.
+     * @return Returns the operation result.
      */
     @Override
     public IotResult onWrite(Map<String, Object> properties) {
@@ -215,7 +215,7 @@ public abstract class AbstractService implements IService {
             }
         }
 
-        //上报变化的属性
+        // Reports changed properties.
         if (changedProps.size() > 0) {
             firePropertiesChanged(changedProps.toArray(new String[changedProps.size()]));
         }
@@ -224,9 +224,9 @@ public abstract class AbstractService implements IService {
     }
 
     /**
-     * 事件处理。收到平台下发的事件时此接口被自动调用。默认为空实现
+     * Called when an event delivered by the platform is received. The default implementation does nothing.
      *
-     * @param deviceEvent 服务事件
+     * @param deviceEvent Indicates the event.
      */
     @Override
     public void onEvent(DeviceEvent deviceEvent) {
@@ -234,19 +234,19 @@ public abstract class AbstractService implements IService {
     }
 
     /**
-     * 通知服务属性变化
+     * Reports a property change.
      *
-     * @param properties 变化的属性，不指定默认读取全部可读属性
+     * @param properties Indicates the properties changed. If it is set to NULL, changes of all readable properties are reported.
      */
     public void firePropertiesChanged(String... properties) {
         iotDevice.firePropertiesChanged(getServiceId(), properties);
     }
 
     /**
-     * 执行设备命令。收到平台下发的命令时此接口被自动调用
+     * Called when a command delivered by the platform is received.
      *
-     * @param command 命令请求
-     * @return 命令响应
+     * @param command Indicates a command request.
+     * @return Returns a command response.
      */
     @Override
     public CommandRsp onCommand(Command command) {
@@ -274,18 +274,18 @@ public abstract class AbstractService implements IService {
     }
 
     /**
-     * 获取设备实例
+     * Obtains a device instance.
      *
-     * @return 设备实例
+     * @return Returns the device instance.
      */
     public AbstractDevice getIotDevice() {
         return iotDevice;
     }
 
     /**
-     * 设置设备实例
+     * Sets a device instance.
      *
-     * @param iotDevice 设备实例
+     * @param iotDevice Indicates the device instance to set.
      */
     public void setIotDevice(AbstractDevice iotDevice) {
         this.iotDevice = iotDevice;
@@ -300,9 +300,9 @@ public abstract class AbstractService implements IService {
     }
 
     /**
-     * 开启自动周期上报属性
+     * Enables automatic, periodic property reporting.
      *
-     * @param reportInterval 上报周期，单位ms
+     * @param reportInterval Indicates the interval at which properties are reported, in units of ms.
      */
     public void enableAutoReport(int reportInterval) {
         if (timer != null) {
@@ -322,7 +322,7 @@ public abstract class AbstractService implements IService {
     }
 
     /**
-     * 关闭自动周期上报，您可以通过firePropertiesChanged触发上报
+     * Disables automatic, periodic property reporting. You can use firePropertiesChanged to trigger property reporting.
      */
     public void disableAutoReport() {
         if (timer != null) {

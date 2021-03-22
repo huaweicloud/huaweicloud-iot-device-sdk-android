@@ -16,14 +16,14 @@
 package com.huaweicloud.sdk.iot.device.transport;
 
 /**
- * 原始消息接收监听器
+ * Provides a listener to listen to raw messages.
  */
 public interface RawMessageListener {
 
     /**
-     * 收到消息通知
+     * Called when a raw message is received.
      *
-     * @param message 原始消息
+     * @param message Indicates the raw message.
      */
     void onMessageReceived(RawMessage message);
 }

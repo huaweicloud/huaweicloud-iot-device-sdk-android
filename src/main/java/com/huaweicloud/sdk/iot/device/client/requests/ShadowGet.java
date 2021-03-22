@@ -18,18 +18,18 @@ package com.huaweicloud.sdk.iot.device.client.requests;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 上行获取设备影子数据
+ * Obtains device shadow data.
  */
 public class ShadowGet {
 
     /**
-     * 需要获取设备影子的目标设备ID,可选
+     * Indicates the ID of the device that wants to obtain the device shadow data. It is optional.
      */
     @SerializedName("object_device_id")
     private String deviceId;
 
     /**
-     * 需要获取设备影子的设备服务ID,不带的话查询所有服务ID的设备影子数据,可选
+     * Indicates the service ID corresponding to the device shadow data. It is optional. If it is set to NULL, the device shadow data of all serices are obtained.
      */
     @SerializedName("service_id")
     private String serviceId;

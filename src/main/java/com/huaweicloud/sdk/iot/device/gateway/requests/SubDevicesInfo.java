@@ -21,7 +21,7 @@ import android.os.Parcelable;
 import java.util.List;
 
 /**
- * 子设备信息
+ * Indicates child device details.
  */
 public class SubDevicesInfo implements Parcelable {
 
