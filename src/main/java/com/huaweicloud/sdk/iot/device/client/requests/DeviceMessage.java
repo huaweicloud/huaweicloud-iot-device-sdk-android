@@ -22,44 +22,44 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 设备消息
+ * Provides APIs related to device messages.
  */
 public class DeviceMessage implements Parcelable {
 
     /**
-     * 设备id，可选，默认为客户端本身的设备id
+     * Indicates a device ID. It is optional. The default value is the device ID of the client.
      */
     @SerializedName("object_device_id")
     String deviceId;
 
     /**
-     * 消息名，可选
+     * Indicates a message name. It is optional.
      */
     String name;
 
 
     /**
-     * 消息id，可选
+     * Indicates a message ID. It is optional.
      */
     String id;
 
 
     /**
-     * 消息具体内容
+     * Indicates the message content.
      */
     String content;
 
     /**
-     * 默认构造函数
+     * Default constructor used to create a DeviceMessage object.
      */
     public DeviceMessage() {
 
     }
 
     /**
-     * 构造函数
+     * Constructor used to create a DeviceMessage object.
      *
-     * @param message 消息内容
+     * @param message Indicates the message content.
      */
     public DeviceMessage(String message) {
         content = message;
@@ -98,72 +98,72 @@ public class DeviceMessage implements Parcelable {
     };
 
     /**
-     * 查询设备id
+     * Obtains the device ID.
      *
-     * @return 设备id
+     * @return Returns the device ID.
      */
     public String getDeviceId() {
         return deviceId;
     }
 
     /**
-     * 设置设备id，不设置默认为客户端的设备id
+     * Sets a device ID.
      *
-     * @param deviceId 设备id
+     * @param deviceId Indicates the device ID to set. If this paramter is set to NULL, the default device ID of the client is used.
      */
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 
     /**
-     * 查询消息名
+     * Obtains the message name.
      *
-     * @return 消息名
+     * @return Returns the message name.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * 设置消息名，默认为空
+     * Sets a message name.
      *
-     * @param name 消息名
+     * @param name Indicates the message name to set. The default value is NULL.
      */
     public void setName(String name) {
         this.name = name;
     }
 
     /**
-     * 查询消息id
+     * Obtains the message ID.
      *
-     * @return 消息id
+     * @return Returns the message ID.
      */
     public String getId() {
         return id;
     }
 
     /**
-     * 设置消息id
+     * Sets a message ID.
      *
-     * @param id 消息id，默认为空
+     * @param id Indicates the message ID to set. The default value is NULL.
      */
     public void setId(String id) {
         this.id = id;
     }
 
     /**
-     * 查询消息内容
+     * Obtains the message content.
      *
-     * @return 消息内容
+     * @return Returns the message content.
      */
     public String getContent() {
         return content;
     }
 
     /**
-     * 设置消息内容
+     * Sets the message content.
      *
-     * @param content 消息内容
+     * @param content Indicates the message content to set.
      */
     public void setContent(String content) {
         this.content = content;

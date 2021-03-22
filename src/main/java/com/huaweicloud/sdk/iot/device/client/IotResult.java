@@ -19,7 +19,7 @@ import com.google.gson.annotations.SerializedName;
 import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
 
 /**
- * 处理结果
+ * Provides APIs related to the processing result.
  */
 public class IotResult {
 
@@ -29,23 +29,23 @@ public class IotResult {
 
 
     /**
-     * 结果码，0表示成功，其他为失败
+     * Indicates a result code. The value 0 indicates a success, and other values indicate a failure.
      */
     @SerializedName("result_code")
     private int resultCode;
 
     /**
-     * 结果描述
+     * Indicates a result description.
      */
     @SerializedName("result_desc")
     private String resultDesc;
 
 
     /**
-     * 处理结果
+     * Obtains a processing result.
      *
-     * @param resultCode 结果码
-     * @param resultDesc 结果描述
+     * @param resultCode Indicates the result code.
+     * @param resultDesc Indicates the result description.
      */
     public IotResult(int resultCode, String resultDesc) {
         this.resultCode = resultCode;

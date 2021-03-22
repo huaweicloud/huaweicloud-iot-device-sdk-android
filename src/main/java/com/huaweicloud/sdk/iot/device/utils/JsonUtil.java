@@ -22,7 +22,7 @@ import com.google.gson.Gson;
 import java.util.Map;
 
 /**
- * Json工具类
+ * Provides a JSON utility class.
  */
 public class JsonUtil {
 

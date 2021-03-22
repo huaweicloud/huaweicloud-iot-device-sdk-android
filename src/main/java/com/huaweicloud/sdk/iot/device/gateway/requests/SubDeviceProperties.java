@@ -18,7 +18,7 @@ package com.huaweicloud.sdk.iot.device.gateway.requests;
 import java.util.List;
 
 /**
- * 网关子设备属性列表
+ * Indicates child device properties.
  */
 public class SubDeviceProperties {
     private List<DeviceProperty> devices;

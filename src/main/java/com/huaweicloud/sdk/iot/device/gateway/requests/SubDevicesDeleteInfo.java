@@ -25,13 +25,13 @@ import java.util.List;
 public class SubDevicesDeleteInfo implements Parcelable {
 
     /**
-     * 成功删除的子设备（设备id）列表
+     * Indicates a list of deleted child device IDs.
      */
     @SerializedName("successful_devices")
     private List<String> successfulDevices;
 
     /**
-     * 子设备删除失败的原因
+     * Indicates the cause of a child device deletion failure.
      */
     @SerializedName("failed_devices")
     private List<FailedReason> failedDevices;

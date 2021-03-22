@@ -25,7 +25,7 @@ import java.util.Map;
 
 
 /**
- * 设备命令
+ * Provides APIs related to commands.
  */
 public class Command implements Parcelable {
 
@@ -64,13 +64,13 @@ public class Command implements Parcelable {
     }
 
     public static final Creator<Command> CREATOR = new Creator<Command>() {
-        //创建普通对象
+        // Creates a common Command object.
         @Override
         public Command createFromParcel(Parcel in) {
             return new Command(in);
         }
 
-        //创建对象数组
+        // Creates a Command object array.
         @Override
         public Command[] newArray(int size) {
             return new Command[size];

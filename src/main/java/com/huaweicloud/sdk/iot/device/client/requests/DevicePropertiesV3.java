@@ -21,16 +21,16 @@ import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
 import java.util.List;
 
 /**
- * 设备上报数据格式（V3接口）
+ * Provides V3 APIs related to device data reporting formats.
  */
 public class DevicePropertiesV3 {
     /**
-     * 消息类型
+     * Indicates a message type.
      */
     private String msgType;
 
     /**
-     * 上报的属性列表
+     * Indicates properties reported.
      */
     @SerializedName("data")
     private List<ServiceData> serviceDatas;

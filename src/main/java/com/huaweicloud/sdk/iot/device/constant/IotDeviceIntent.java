@@ -16,133 +16,154 @@
 package com.huaweicloud.sdk.iot.device.constant;
 
 /**
- * SDK上报UI消息广播
+ * The SDK reports UI message broadcasts.
  */
 public class IotDeviceIntent {
 
     /**
-     * 上报设备属性
+     * Indicates a device property reporting event.
      */
     public static final String ACTION_IOT_DEVICE_PROPERTIES_REPORT = "huaweicloud.iot.device.intent.action.PROPERTIES.REPORT";
 
     /**
-     * V3上报设备属性
+     * Indicates a V3 device property reporting event.
      */
     public static final String ACTION_IOT_DEVICE_PROPERTIES_REPORT_V3 = "huaweicloud.iot.device.intent.action.PROPERTIES.REPORT.V3";
 
     /**
-     * V3上报设备的码流
+     * Indicates a V3 device property reporting event in binary code streams.
      */
     public static final String ACTION_IOT_DEVICE_PROPERTIES_BINARY_V3 = "huaweicloud.iot.device.intent.action.PROPERTIES.BINARY.V3";
 
     /**
-     * 平台命令下发
+     * Indicates a command delivery event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_COMMANDS = "huaweicloud.iot.device.intent.action.SYS.COMMANDS";
 
     /**
-     * 平台V3命令下发
+     * Indicates a V3 command delivery event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_COMMANDS_V3 = "huaweicloud.iot.device.intent.action.SYS.COMMANDS.V3";
 
     /**
-     * 设备消息上报
+     * Indicates a message reporting event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_MESSAGES_UP = "huaweicloud.iot.device.intent.action.SYS.MESSAGES.UP";
 
     /**
-     * 平台消息下发
+     * Indicates a message delivery event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN = "huaweicloud.iot.device.intent.action.SYS.MESSAGES.DOWN";
 
     /**
-     * 平台设置设备属性
+     * Indicates a device property setting event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_PROPERTIES_SET = "huaweicloud.iot.device.intent.action.SYS.PROPERTIES.SET";
 
     /**
-     * 平台查询设备属性
+     * Indicates a device property query event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_PROPERTIES_GET = "huaweicloud.iot.device.intent.action.SYS.PROPERTIES.GET";
 
     /**
-     * MQTT链接状态广播
+     *  Indicates an MQTT connection status event.
      */
     public static final String ACTION_IOT_DEVICE_CONNECT = "huaweicloud.iot.device.intent.action.CONNECT";
 
     /**
-     * 自定义topic订阅状态广播
+     * MQTT设备引导连接状态广播
+     */
+    public static final String ACTION_IOT_DEVICE_BOOTSTRAP_CONNECT = "huaweicloud.iot.device.intent.action.BOOTSTRAP.CONNECT";
+
+    /**
+     * 设备引导状态广播
+     */
+    public static final String ACTION_IOT_DEVICE_BOOTSTRAP = "huaweicloud.iot.device.intent.action.BOOTSTRAP";
+
+    /**
+     * Indicates a custom topic subscription status event.
      */
     public static final String ACTION_IOT_DEVICE_CUSTOMIZED_TOPIC_CONNECT = "huaweicloud.iot.device.intent.action.CUSTOMIZED.TOPIC.CONNECT";
 
     /**
-     * 自定义topic消息下发广播
+     * Indicates a custom topic message delivery event.
      */
     public static final String ACTION_IOT_DEVICE_CUSTOMIZED_TOPIC_MESSAGE = "huaweicloud.iot.device.intent.action.CUSTOMIZED.TOPIC.MESSAGE";
 
     /**
-     * 设备上报自定义Topic结果广播
+     * Indicates a custom topic result reporting event.
      */
     public static final String ACTION_IOT_DEVICE_CUSTOMIZED_TOPIC_REPORT = "huaweicloud.iot.device.intent.action.CUSTOMIZED.TOPIC.REPORT";
 
     /**
-     * 平台下发升级通知广播
+     * Indicates an upgrade notification event.
      */
     public static final String ACTION_IOT_DEVICE_UPGRADE_EVENT = "huaweicloud.iot.device.intent.action.UPGRADE.EVENT";
 
     /**
-     * 平台下发获取版本信息广播
+     * Indicates a version query event.
      */
     public static final String ACTION_IOT_DEVICE_VERSION_QUERY_EVENT = "huaweicloud.iot.device.intent.action.VERSION.QUERY.EVENT";
 
     /**
-     * 平台下发文件上传临时URL通知广播
+     * Indicates a temporary URL for file upload.
      */
     public static final String ACTION_IOT_DEVICE_GET_UPLOAD_URL = "huaweicloud.iot.device.intent.action.GET.UPLOAD.URL";
 
     /**
-     * 平台下发文件下载临时URL通知广播
+     * Indicates a temporary URL for file download.
      */
     public static final String ACTION_IOT_DEVICE_GET_DOWNLOAD_URL = "huaweicloud.iot.device.intent.action.GET.DOWNLOAD.URL";
 
     /**
-     * 平台下发设备影子数据通知广播
+     * Indicates a device shadow setting event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_SHADOW_GET = "huaweicloud.iot.device.intent.action.SYS.SHADOW.GET";
 
 
     /**
-     * 网关子设备消息上报
+     * Indicates a message reporting event initiated by a child device.
      */
     public static final String ACTION_IOT_DEVICE_SYS_SUB_MESSAGES_UP = "huaweicloud.iot.device.intent.action.SYS.SUB.MESSAGES.UP";
 
     /**
-     * 网关子设备属性上报
+     * Indicates a child device property reporting event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_SUB_PROPERTIES_REPORT = "huaweicloud.iot.device.intent.action.SYS.SUB.PROPERTIES.REPORT";
 
     /**
-     * 网关子设备状态上报
+     * Indicates a child device status reporting event.
      */
     public static final String ACTION_IOT_DEVICE_SYS_SUB_STATUSES_REPORT = "huaweicloud.iot.device.intent.action.SYS.SUB.STATUSES.REPORT";
 
     /**
-     * 平台通知网关子设备新增
+     * Indicates a child device addition notification delivered by the platform.
      */
     public static final String ACTION_IOT_DEVICE_SYS_SUB_ADD_DEVICE_NOTIFY = "huaweicloud.iot.device.intent.action.SYS.SUB.ADD.DEVICE.NOTIFY";
 
     /**
-     * 平台通知网关子设备删除
+     * Indicates a child device deletion notification delivered by the platform.
      */
     public static final String ACTION_IOT_DEVICE_SYS_SUB_DELETE_DEVICE_NOTIFY = "huaweicloud.iot.device.intent.action.SYS.SUB.DELETE.DEVICE.NOTIFY";
 
     /**
-     * 网关新增子设备请求响应
+     * Indicates a response to the child device addition notification.
      */
     public static final String ACTION_IOT_DEVICE_SYS_SUB_ADD_DEVICE_RESPONSE = "huaweicloud.iot.device.intent.action.SYS.SUB.ADD.DEVICE.RESPONSE";
 
     /**
-     * 网关删除子设备请求响应
+     * Indicates a response to the child device deletion notification.
      */
     public static final String ACTION_IOT_DEVICE_SYS_SUB_DELETE_DEVICE_RESPONSE = "huaweicloud.iot.device.intent.action.SYS.SUB.DELETE.DEVICE.RESPONSE";
+
+    /**
+     * 设备时间同步响应
+     */
+    public static final String ACTION_IOT_DEVICE_TIME_SYNC_RESPONSE = "huaweicloud.iot.device.intent.action.TIME.SYNC.RESPONSE";
+
+    /**
+     * 设备发放重引导广播
+     */
+    public static final String ACTION_IOT_DEVICE_BOOTSTRAP_REQUEST_TRIGGER = "huaweicloud.iot.device.intent.action.BOOTSTRAP.REQUEST.TRIGGER";
+
 }

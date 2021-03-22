@@ -23,18 +23,18 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * 设备影子下行数据
+ * Sets device shadow data.
  */
 public class ShadowMessage implements Parcelable {
 
     /**
-     * 设备影子的目标设备ID
+     * Indicates the ID of the device for which the device shadow data is to be set.
      */
     @SerializedName("object_device_id")
     private String deviceId;
 
     /**
-     * 服务影子数据
+     * Indicates the device shadow data.
      */
     private List<ShadowData> shadow;
 

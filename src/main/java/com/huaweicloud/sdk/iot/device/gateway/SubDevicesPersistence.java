@@ -20,7 +20,7 @@ import com.huaweicloud.sdk.iot.device.gateway.requests.DeviceInfo;
 import com.huaweicloud.sdk.iot.device.gateway.requests.SubDevicesInfo;
 
 /**
- * 提供子设备信息持久化保存
+ * Persistently stores child device details.
  */
 public interface SubDevicesPersistence {
 

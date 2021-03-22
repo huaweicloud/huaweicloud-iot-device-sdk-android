@@ -16,22 +16,22 @@
 package com.huaweicloud.sdk.iot.device.transport;
 
 /**
- * 连接监听器
+ * Provides listeners to listen to connections between the platform and devices.
  */
 public interface ConnectListener {
 
     /**
-     * 连接丢失通知
+     * Called when the connection is lost.
      *
-     * @param cause 连接丢失原因
+     * @param cause Indicates the failure cause.
      */
     void connectionLost(Throwable cause);
 
     /**
-     * 连接成功通知
+     * Called when the connection is complete.
      *
-     * @param reconnect 是否为重连
-     * @param serverURI 服务端地址
+     * @param reconnect Indicates whether it is a reconnection.
+     * @param serverURI Indicates the server URI.
      */
     void connectComplete(boolean reconnect, String serverURI);
 }

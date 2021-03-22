@@ -32,7 +32,7 @@ public class IotRequest {
     private Object result = null;
     private boolean sync = true;
     /**
-     * 异步请求才有
+     * Valid only for asynchronous requests.
      */
     private RequestListener listener;
     private ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();

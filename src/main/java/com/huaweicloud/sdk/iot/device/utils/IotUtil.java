@@ -37,7 +37,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 
 /**
- * IOT工具类
+ * Provides an IoT utility class.
  */
 public class IotUtil {
 
@@ -47,10 +47,10 @@ public class IotUtil {
     private static AtomicLong requestId = new AtomicLong(0);
 
     /**
-     * 从topic里解析出requestId
+     * Obtains the request ID from a topic.
      *
-     * @param topic topic
-     * @return requestId
+     * @param topic Indicates the topic.
+     * @return Returns the request ID.
      */
     public static String getRequestId(String topic) {
         String[] tmp = topic.split("request_id=");
@@ -58,10 +58,10 @@ public class IotUtil {
     }
 
     /**
-     * 从deviceid解析nodeId
+     * Obtains the node ID from a device ID.
      *
-     * @param deviceId 设备id
-     * @return 设备物理标识
+     * @param deviceId Indicates the device ID.
+     * @return Returns the node ID.
      */
     public static String getNodeIdFromDeviceId(String deviceId) {
 
@@ -75,10 +75,10 @@ public class IotUtil {
     }
 
     /**
-     * 根据请求topic构造响应topic
+     * Constructs a response topic based on a request topic.
      *
-     * @param topic 请求topic
-     * @return 响应topic
+     * @param topic Indicates the request topic.
+     * @return Returns the response topic.
      */
     public static String makeRspTopic(String topic) {
 
@@ -92,9 +92,9 @@ public class IotUtil {
     }
 
     /**
-     * 获取当前时间戳
+     * Obtains the current timestamp.
      *
-     * @return 当前时间戳
+     * @return Returns the timestamp.
      */
     public static String getTimeStamp() {
 
@@ -107,9 +107,9 @@ public class IotUtil {
     }
 
     /**
-     * 生成requestId
+     * Generates a request ID.
      *
-     * @return requestId
+     * @return Returns the request ID.
      */
     public static String generateRequestId() {
 
@@ -119,11 +119,11 @@ public class IotUtil {
     }
 
     /**
-     * HmacSHA256
+     * Encrypts a string using HMAC-SHA256.
      *
-     * @param str       输入字符串
-     * @param timeStamp 时间戳
-     * @return hash后的字符串
+     * @param str Indicates the string.
+     * @param timeStamp Indicates a timestamp.
+     * @return Returns the encrypted string.
      */
     public static String sha256_mac(String str, String timeStamp) {
         String passWord = null;
@@ -140,10 +140,10 @@ public class IotUtil {
     }
 
     /**
-     * bytes转十六进制字符串
+     * Converts a byte array to a hexadecimal string.
      *
-     * @param b bytes
-     * @return 十六进制字符串
+     * @param b Indicates the byte array.
+     * @return Returns a hexadecimal string.
      */
     public static String byteArrayToHexString(byte[] b) {
         StringBuilder sb = new StringBuilder();
@@ -180,11 +180,11 @@ public class IotUtil {
     }
 
     /**
-     * 根据配置获取ssl上下文
+     * Obtains the SSL context based on the client configuration.
      *
-     * @param clientConf 客户端配置
-     * @return ssl上下文
-     * @throws Exception ssl相关异常
+     * @param clientConf Indicates the client configuration.
+     * @return Returns the SSL context.
+     * @throws Exception Throws this exception if any error occurs.
      */
     public static SSLContext getSSLContext(Context mContext, ClientConf clientConf) throws Exception {
 

@@ -22,7 +22,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 设备状态
+ * Provides APIs related to device statuses.
  */
 public class DeviceStatus implements Parcelable {
 

@@ -20,7 +20,7 @@ import com.google.gson.annotations.SerializedName;
 import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
 
 /**
- * 读属性操作
+ * Obtains properties.
  */
 public class PropsGet {
 

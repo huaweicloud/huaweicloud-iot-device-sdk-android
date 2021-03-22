@@ -19,55 +19,55 @@ package com.huaweicloud.sdk.iot.device.client;
 import java.security.KeyStore;
 
 /**
- * 客户端配置
+ * Provides APIs for client configurations.
  */
 
 public class ClientConf {
 
 
     /**
-     * 设备id，在平台注册设备获得，生成规则：productId_nodeId
+     * Indicates a device ID, which is obtained when the device is registered on the platform. It is in the format of productId_nodeId.
      */
     private String deviceId;
 
 
     /**
-     * 设备密码，使用密码认证时填写
+     * Indicates a secret. This parameter is mandatory when secret authentication is used.
      */
     private String secret;
 
     /**
-     * 设备接入平台地址，比如tcp://localhost:1883 或者 ssl://localhost:8883
+     * Indicates a device access address, for example, tcp://localhost:1883 or ssl://localhost:8883.
      */
     private String serverUri;
 
     /**
-     * 协议类型，当前仅支持mqtt
+     * Indicates a protocol. Currently, only MQTT is supported.
      */
     private String protocol;
 
     /**
-     * 离线消息缓存队列大小，默认100，仅MQTT协议支持
+     * Indicates the size of a message queue, which caches messages for offline devices. The default value is 100. This parameter is valid only for MQTT devices.
      */
     private Integer offlineBufferSize;
 
     /**
-     * keystore格式的证书，使用证书认证时传入keyStore和keyPassword
+     * Indicates a certificate keystore. The keyStore and keyPassword parameters must be passed during certificate authentication.
      */
     private KeyStore keyStore;
 
     /**
-     * 私钥密码
+     * Indicates a private key password.
      */
     private String keyPassword;
 
     /**
-     * 客户端qos，0或1，默认1，仅MQTT协议支持
+     * Indicates a QoS level. The value can be 0 or 1. The default value is 1. This parameter is valid only for MQTT devices.
      */
     private int qos = 1;
 
     /**
-     * scopeId,在设备发放的自注册场景下使用
+     * Indicates a scope ID, which is used in the self-registration scenario during device provisioning.
      */
     private String scopeId;
 
@@ -76,9 +76,9 @@ public class ClientConf {
     }
 
     /**
-     * 设置设备id
+     * Sets a device ID.
      *
-     * @param deviceId 设备id
+     * @param deviceId Indicates the device ID to set.
      */
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
@@ -89,9 +89,9 @@ public class ClientConf {
     }
 
     /**
-     * 设置设备密码
+     * Sets a secret.
      *
-     * @param secret 设备密码
+     * @param secret Indicates the secret to set.
      */
     public void setSecret(String secret) {
         this.secret = secret;
@@ -102,9 +102,9 @@ public class ClientConf {
     }
 
     /**
-     * 设置服务端地址
+     * Sets a server URI.
      *
-     * @param serverUri 服务端地址
+     * @param serverUri Indicates the server URI to set.
      */
     public void setServerUri(String serverUri) {
         this.serverUri = serverUri;
@@ -115,9 +115,9 @@ public class ClientConf {
     }
 
     /**
-     * 设置设备接入协议
+     * Sets a protocol for device access.
      *
-     * @param protocol 设备接入协议
+     * @param protocol Indicates the protocol to set.
      */
     public void setProtocol(String protocol) {
         this.protocol = protocol;
@@ -128,9 +128,9 @@ public class ClientConf {
     }
 
     /**
-     * 设置离线缓存大小
+     * Sets the size of a message queue, which caches messages for offline devices.
      *
-     * @param offlineBufferSize 离线缓存大小
+     * @param offlineBufferSize Indicates the size to set.
      */
     public void setOfflineBufferSize(Integer offlineBufferSize) {
         this.offlineBufferSize = offlineBufferSize;
@@ -141,9 +141,9 @@ public class ClientConf {
     }
 
     /**
-     * 客户端qos
+     * Sets a client QoS level.
      *
-     * @param qos 客户端qos
+     * @param qos Indicates the QoS level to set.
      */
     public void setQos(int qos) {
         this.qos = qos;
@@ -154,9 +154,9 @@ public class ClientConf {
     }
 
     /**
-     * 设置私钥密码
+     * Sets a private key password.
      *
-     * @param keyPassword 私钥密码
+     * @param keyPassword Indicates the password to set.
      */
     public void setKeyPassword(String keyPassword) {
         this.keyPassword = keyPassword;
@@ -167,9 +167,9 @@ public class ClientConf {
     }
 
     /**
-     * 设置证书仓库
+     * Sets a certificate keystore.
      *
-     * @param keyStore 证书仓库
+     * @param keyStore Indicates the keystore to set.
      */
     public void setKeyStore(KeyStore keyStore) {
         this.keyStore = keyStore;

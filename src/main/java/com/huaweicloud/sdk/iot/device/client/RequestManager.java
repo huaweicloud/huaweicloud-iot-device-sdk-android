@@ -24,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * 请求管理器
+ * Provides APIs to manage requests.
  */
 public class RequestManager {
 
@@ -34,19 +34,19 @@ public class RequestManager {
     private ConcurrentMap<String, IotRequest> pendingRequests = new ConcurrentHashMap<String, IotRequest>();
 
     /**
-     * 构造函数
+     * Constructor used to create a RequestManager object.
      *
-     * @param client 客户端
+     * @param client Indicates a client.
      */
     public RequestManager(DeviceClient client) {
         this.iotClient = client;
     }
 
     /**
-     * 执行同步请求
+     * Executes a synchronous request. 
      *
-     * @param iotRequest 请求参数
-     * @return 请求执行结果
+     * @param iotRequest Indicates a request.
+     * @return Returns the request execution result.
      */
     public Object executeSyncRequest(IotRequest iotRequest) {
 
@@ -58,10 +58,10 @@ public class RequestManager {
     }
 
     /**
-     * 执行异步请求
+     * Executes an asynchronous request.
      *
-     * @param iotRequest 请求参数
-     * @param listener   请求监听器，用于接收请求完成通知
+     * @param iotRequest Indicates a request.
+     * @param listener Indicates a listener, so the client receives a notification when the request execution is complete.
      */
     public void executeAsyncRequest(IotRequest iotRequest, RequestListener listener) {
 
@@ -72,9 +72,9 @@ public class RequestManager {
     }
 
     /**
-     * 请求响应回调，由sdk自动调用
+     * Called when the request is responded.
      *
-     * @param message 响应消息
+     * @param message Indicates a response.
      */
     public void onRequestResponse(RawMessage message) {
         String requestId = IotUtil.getRequestId(message.getTopic());

@@ -21,7 +21,7 @@ import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
 import java.util.Map;
 
 /**
- * 命令响应
+ * Provides APIs related to command responses.
  */
 public class CommandRsp {
 
@@ -29,19 +29,19 @@ public class CommandRsp {
     public static final int FAIL = -1;
 
     /**
-     * 结果码，0表示成功，其他表示失败。不带默认认为成功
+     * Indicates a result code. The value 0 indicates a success, and other values indicate a failure. If it is not specified, the command execution is successful.
      */
     @SerializedName("result_code")
     int resultCode;
 
     /**
-     * 命令的响应名称，在设备关联的产品模型中定义。可选
+     * Indicates a command response name, which is defined in the product model. It is optional.
      */
     @SerializedName("response_name")
     String responseName;
 
     /**
-     * 命令的响应参数，具体字段在设备关联的产品模型中定义。可选
+     * Indicates command response parameters, which are defined in the product model. It is optional.
      */
     private Map<String, Object> paras;
 

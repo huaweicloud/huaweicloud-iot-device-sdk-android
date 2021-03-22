@@ -23,31 +23,31 @@ import com.google.gson.annotations.SerializedName;
 public class FailedReason implements Parcelable {
 
     /**
-     * 失败错误原因码
+     * Indicates an error code.
      */
     @SerializedName("error_code")
     private String errorCode;
 
     /**
-     * 失败原因描述
+     * Indicates an error message.
      */
     @SerializedName("error_msg")
     private String errorMsg;
 
     /**
-     * 子设备ID
+     * Indicates a child device ID.
      */
     @SerializedName("device_id")
     private String deviceId;
 
     /**
-     * 设备标识
+     * Indicates a node ID.
      */
     @SerializedName("node_id")
     private String nodeId;
 
     /**
-     * 产品ID
+     * Indicates a product ID.
      */
     @SerializedName("product_id")
     private String productId;

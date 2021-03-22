@@ -21,7 +21,7 @@ import com.huaweicloud.sdk.iot.device.client.requests.ServiceProperty;
 import java.util.List;
 
 /**
- * 设备属性
+ * Provides APIs related to device properties.
  */
 public class DeviceProperty {
 

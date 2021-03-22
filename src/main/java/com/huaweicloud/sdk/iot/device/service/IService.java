@@ -23,40 +23,40 @@ import com.huaweicloud.sdk.iot.device.client.requests.DeviceEvent;
 import java.util.Map;
 
 /**
- * 服务接口类
+ * Provides APIs related to services.
  */
 public interface IService {
 
 
     /**
-     * 读属性回调
+     * Called when a property read request is received.
      *
-     * @param fields 指定读取的字段名，不指定则读取全部可读字段
-     * @return 属性值，json格式
+     * @param fields Indicates the names of fields to read. If it is set to NULL, all fields are read.
+     * @return Returns the property values.
      */
     Map<String, Object> onRead(String... fields);
 
     /**
-     * 写属性回调
+     * Called when a property write request is received.
      *
-     * @param properties 属性期望值
-     * @return 操作结果jsonObject
+     * @param properties Indicates the desired properties.
+     * @return Returns the operation result, which is a JSON object.
      */
     IotResult onWrite(Map<String, Object> properties);
 
 
     /**
-     * 命令回调
+     * Called when a command delivered by the platform is received.
      *
-     * @param command 命令
-     * @return 执行结果
+     * @param command Indicates a command request.
+     * @return Returns a command response.
      */
     CommandRsp onCommand(Command command);
 
     /**
-     * 事件回调
+     * Called when an event delivered by the platform is received.
      *
-     * @param deviceEvent 事件
+     * @param deviceEvent Indicates the event.
      */
     void onEvent(DeviceEvent deviceEvent);
 

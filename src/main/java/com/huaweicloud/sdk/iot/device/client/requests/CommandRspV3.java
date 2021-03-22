@@ -18,29 +18,29 @@ package com.huaweicloud.sdk.iot.device.client.requests;
 import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
 
 /**
- * 命令响应V3
+ * Provides APIs related to V3 command responses.
  */
 public class CommandRspV3 {
 
     /**
-     * 消息类型 固定值为：deviceRsp
+     * Indicates a message type. The value is fixed at deviceRsp.
      */
     private String msgType;
 
     /**
-     * 命令ID，把物联网平台下发命令时携带的“mid”返回给平台。
+     * Indicates a command ID. It is set to mid carried in the command delivered by the platform.
      */
     private int mid;
 
     /**
-     * 命令执行的结果码:
-     * “0”表示执行成功。
-     * “1”表示执行失败。
+     * Indicates a command execution result code.
+     * 0: successful command execution
+     * 1: failed command execution
      */
     private int errcode;
 
     /**
-     * 命令的应答，具体字段在设备的产品模型中定义，可选。
+     * Indicates a command response, which is defined in the product model. It is optional.
      */
     private Object body;
 

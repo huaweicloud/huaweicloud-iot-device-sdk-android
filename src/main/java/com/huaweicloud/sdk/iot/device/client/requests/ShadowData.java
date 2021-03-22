@@ -21,30 +21,30 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * 服务影子数据
+ * Provides APIs related to device shadow data.
  */
 public class ShadowData implements Parcelable {
 
     /**
-     * 服务id，和设备模型里一致
+     * Indicates a service ID, which must be the same as that defined in the product model.
      */
     @SerializedName("service_id")
     private String serviceId;
 
     /**
-     * 设备影子desired区的属性列表
+     * Indicates properties in the desired section of the device shadow.
      */
     @SerializedName("desired")
     private PropertiesData desiredData;
 
     /**
-     * 设备影子reported区的属性列表
+     * Indicates properties in the reported section of the device shadow.
      */
     @SerializedName("reported")
     private PropertiesData reportedData;
 
     /**
-     * 设备影子版本信息
+     * Indicates the version of the device shadow.
      */
     private Integer version;
 
