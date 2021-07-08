@@ -62,8 +62,7 @@ org.eclipse.paho.client.mqttv3：v1.2.5
 gson：v2.8.6
 
 <h1 id="3">准备工作</h1>
-*  已安装Android Studio    	
-* 支持Android平台4.4及以上版本
+*  已安装Android Studio，支持Android平台4.4及以上版本
 
 <h1 id="4">上传产品模型并注册设备</h1>
 为了方便体验，我们提供了一个烟感的产品模型，烟感会上报烟雾值、温度、湿度、烟雾报警、还支持响铃报警命令。以烟感例，体验消息上报、属性上报等功能。
