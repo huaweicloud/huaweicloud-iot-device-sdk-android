@@ -62,7 +62,7 @@ org.eclipse.paho.client.mqttv3：v1.2.5
 gson：v2.8.6
 
 <h1 id="3">准备工作</h1>
-*  已安装Android Studio
+*  已安装Android Studio  
 *  支持Android平台4.4及以上版本
 
 <h1 id="4">上传产品模型并注册设备</h1>
