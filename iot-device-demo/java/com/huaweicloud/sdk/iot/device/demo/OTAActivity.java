@@ -42,18 +42,20 @@ import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.MessageDigest;
+
 import androidx.annotation.NonNull;
+
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
-import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
@@ -126,7 +128,8 @@ public class OTAActivity extends AppCompatActivity implements View.OnClickListen
     private int installPackage() {
         //TODO
         Log.i(TAG, "installPackage ok");
-
+        edtLog.append("begin to installPackage!\n");
+        edtLog.append("end to installPackage!\n");
         return 0;
     }
 
@@ -139,7 +142,7 @@ public class OTAActivity extends AppCompatActivity implements View.OnClickListen
      * @return
      */
     private int checkPackage(OTAPackage otaPackage, String md5) {
-        if (!md5.equalsIgnoreCase(otaPackage.getSign())) {
+        if (otaPackage.getSign() != null && !md5.equalsIgnoreCase(otaPackage.getSign())) {
             Log.e(TAG, "md5 check fail");
             /**
              * 当使用软件升级时，这里的版本号取edtSwVersion的值
@@ -162,15 +165,38 @@ public class OTAActivity extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ota);
         initViews();
-        initData();
+        try {
+            initData();
+        } catch (Exception e) {
+            Log.e(TAG, "initData fail");
+        }
         registerBroadcastReceiver();
     }
 
-    private void initData() {
+    private void initData() throws Exception {
+        X509TrustManager x509TrustManager = new X509TrustManager() {
+            @Override
+            public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+            }
+
+            @Override
+            public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+            }
+
+            @Override
+            public X509Certificate[] getAcceptedIssuers() {
+                return new X509Certificate[0];
+            }
+        };
+
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, new X509TrustManager[]{x509TrustManager}, new SecureRandom());
         this.okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(600, TimeUnit.SECONDS)
-                .sslSocketFactory(createSSLSocketFactory()).hostnameVerifier(new HostnameVerifier() {
+                .sslSocketFactory(sslContext.getSocketFactory(), x509TrustManager).hostnameVerifier(new HostnameVerifier() {
                     @Override
                     public boolean verify(String hostname, SSLSession session) {
                         return true;
@@ -228,14 +254,22 @@ public class OTAActivity extends AppCompatActivity implements View.OnClickListen
      * 模拟下载升级软固件升级
      */
     private void downloadUpgrade() {
-        if (TextUtils.isEmpty(otaPackage.getUrl()) || TextUtils.isEmpty(otaPackage.getToken())) {
-            edtLog.append("no url or token for download!\n");
+        if (TextUtils.isEmpty(otaPackage.getUrl())) {
+            edtLog.append("no url for download!\n");
             return;
         }
 
-        Request request = new Request.Builder()
-                .url(otaPackage.getUrl()).header("Authorization", "Bearer " + otaPackage.getToken())
-                .build();
+        Request request = null;
+        if (otaPackage.getEventType().equals("firmware_upgrade")) {
+            request = new Request.Builder()
+                    .url(otaPackage.getUrl()).header("Authorization", "Bearer " + otaPackage.getToken())
+                    .build();
+        } else {
+            request = new Request.Builder()
+                    .url(otaPackage.getUrl())
+                    .build();
+        }
+
         Call call = okHttpClient.newCall(request);
 
         call.enqueue(new Callback() {
@@ -247,6 +281,7 @@ public class OTAActivity extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 Log.i(TAG, "onResponse: " + response.toString());
+                edtLog.append("begin to download!\n");
 
                 if (call.isCanceled()) {
                     return;
@@ -295,6 +330,7 @@ public class OTAActivity extends AppCompatActivity implements View.OnClickListen
                     if (current == total) {
                         String md5 = CommonUtils.bytesToHexString(digest.digest());
                         Log.i(TAG, "md5 = " + md5);
+                        edtLog.append("end to download!\n");
                         Message message = Message.obtain();
                         message.what = UPGRADE_STATUS_SUCCESS;
                         message.obj = md5;
@@ -318,34 +354,7 @@ public class OTAActivity extends AppCompatActivity implements View.OnClickListen
         });
     }
 
-    private SSLSocketFactory createSSLSocketFactory() {
-        SSLSocketFactory ssfFactory = null;
-        try {
 
-            SSLContext sc = SSLContext.getInstance("TLSv1.2");
-            sc.init(null, new TrustManager[]{new X509TrustManager() {
-                @Override
-                public void checkClientTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-
-                }
-
-                @Override
-                public void checkServerTrusted(X509Certificate[] x509Certificates, String s) throws CertificateException {
-
-                }
-
-                @Override
-                public X509Certificate[] getAcceptedIssuers() {
-                    return new X509Certificate[0];
-                }
-            } }, new SecureRandom());
-            ssfFactory = sc.getSocketFactory();
-        } catch (Exception ignored) {
-            Log.e(TAG, "createSSLSocketFactory: " + ExceptionUtil.getBriefStackTrace(ignored));
-        }
-
-        return ssfFactory;
-    }
 
     private void upgradeResponse() {
         Integer resultCode = null;
