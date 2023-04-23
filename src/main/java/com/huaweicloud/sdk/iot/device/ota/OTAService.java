@@ -149,9 +149,12 @@ public class OTAService extends AbstractService {
         if (deviceEvent.getEventType().equalsIgnoreCase("version_query")) {
             onQueryVersion();
         } else if (deviceEvent.getEventType().equalsIgnoreCase("firmware_upgrade")
-                || deviceEvent.getEventType().equalsIgnoreCase("software_upgrade")) {
+                || deviceEvent.getEventType().equalsIgnoreCase("software_upgrade")
+                || deviceEvent.getEventType().equalsIgnoreCase("firmware_upgrade_v2")
+                || deviceEvent.getEventType().equalsIgnoreCase("software_upgrade_v2")) {
 
             OTAPackage pkg = JsonUtil.convertMap2Object(deviceEvent.getParas(), OTAPackage.class);
+            pkg.setEventType(deviceEvent.getEventType());
             onNewPackage(pkg);
         }
     }
@@ -166,5 +169,4 @@ public class OTAService extends AbstractService {
         Intent intent = new Intent(ACTION_IOT_DEVICE_VERSION_QUERY_EVENT);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
-
 }
