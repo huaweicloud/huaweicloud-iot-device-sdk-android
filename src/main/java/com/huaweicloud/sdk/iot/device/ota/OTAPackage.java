@@ -37,6 +37,8 @@ public class OTAPackage implements Parcelable {
 
     private String sign;
 
+    private String eventType;
+
     public OTAPackage() {
     }
 
@@ -56,6 +58,7 @@ public class OTAPackage implements Parcelable {
             expires = in.readInt();
         }
         sign = in.readString();
+        eventType = in.readString();
     }
 
     @Override
@@ -76,6 +79,7 @@ public class OTAPackage implements Parcelable {
             dest.writeInt(expires);
         }
         dest.writeString(sign);
+        dest.writeString(eventType);
     }
 
     @Override
@@ -143,6 +147,14 @@ public class OTAPackage implements Parcelable {
         this.sign = sign;
     }
 
+    public String getEventType() {
+        return eventType;
+    }
+
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
     @Override
     public String toString() {
         return "OTAPackage{"
@@ -152,6 +164,7 @@ public class OTAPackage implements Parcelable {
                 + ", token='" + token + '\''
                 + ", expires=" + expires
                 + ", sign='" + sign + '\''
+                + ", eventType='" + eventType + '\''
                 + '}';
     }
 }
