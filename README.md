@@ -145,6 +145,9 @@ We provide a smoke detector product model for your experience. The smoke detecto
    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
    implementation 'com.google.code.gson:gson:2.8.6'
+   implementation group: 'org.bouncycastle', name: 'bcpkix-jdk15to18', version: '1.68'
+   implementation group: 'org.bouncycastle', name: 'bcprov-jdk15to18', version: '1.68'
+   implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
    ```
 
 <h1 id="7">Initializing a Device</h1>
