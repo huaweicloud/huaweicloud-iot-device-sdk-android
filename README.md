@@ -27,8 +27,11 @@ English | [简体中文](./README_CN.md)
 - [V3 APIs](#18)
 - [Open-Source Protocols](#19)
 
-<h1 id="0">Change History</h1>
-+ Issue 01 First official release (2020-10-13)
+<h1 id="0">Version Updates</h1>
+
+|  Version | Change Type  | Function Description  |
+| ------------ | ------------ | ------------ |
+|  1.0.0 | Publishment  |  Provides basic device access capabilities. |
 
 <h1 id="1">About This Document</h1>
 This document uses an example to describe how to use iot-device-sdk-android (SDK for short) to quickly connect MQTT devices to the HUAWEI CLOUD IoT platform.
