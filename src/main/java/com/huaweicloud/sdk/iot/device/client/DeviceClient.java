@@ -33,6 +33,7 @@ import com.huaweicloud.sdk.iot.device.client.requests.DeviceProperties;
 import com.huaweicloud.sdk.iot.device.client.requests.DevicePropertiesV3;
 import com.huaweicloud.sdk.iot.device.client.requests.PropsGet;
 import com.huaweicloud.sdk.iot.device.client.requests.PropsSet;
+import com.huaweicloud.sdk.iot.device.client.requests.RawDeviceMessage;
 import com.huaweicloud.sdk.iot.device.client.requests.ServiceProperty;
 import com.huaweicloud.sdk.iot.device.client.requests.ShadowGet;
 import com.huaweicloud.sdk.iot.device.client.requests.ShadowMessage;
@@ -62,12 +63,12 @@ import java.util.concurrent.TimeUnit;
 
 
 /**
-* Provides APIs related to device clients. A device client can exchange the following information with the platform:
-* Messages: Message interactions are bidirectional and asynchronous. Messages do not need to be defined in the product model.
-* Properties: Property interactions are bidirectional. Devices can report properties, and the platform can read properties from and write properties to devices. Properties must be defined in the product model.
-* Commands: Command interactions are unidirectional and synchronous. The platform sends commands to devices.
-* Events: Event interactions are bidirectional and asynchronous. Events must be defined in the product model.
-* You cannot directly create a DeviceClient instance. Instead, create an IoTDevice instance and then call the getClient method of IoTDevice to obtain a DeviceClient instance.
+ * Provides APIs related to device clients. A device client can exchange the following information with the platform:
+ * Messages: Message interactions are bidirectional and asynchronous. Messages do not need to be defined in the product model.
+ * Properties: Property interactions are bidirectional. Devices can report properties, and the platform can read properties from and write properties to devices. Properties must be defined in the product model.
+ * Commands: Command interactions are unidirectional and synchronous. The platform sends commands to devices.
+ * Events: Event interactions are bidirectional and asynchronous. Events must be defined in the product model.
+ * You cannot directly create a DeviceClient instance. Instead, create an IoTDevice instance and then call the getClient method of IoTDevice to obtain a DeviceClient instance.
  */
 public class DeviceClient implements RawMessageListener {
 
@@ -239,20 +240,32 @@ public class DeviceClient implements RawMessageListener {
      *
      * @param deviceMessage Indicates the device message to report.
      */
+    @Deprecated
     public void reportDeviceMessage(DeviceMessage deviceMessage) {
         String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
         this.publishRawMessage(new RawMessage(topic, JsonUtil.convertObject2String(deviceMessage)), messagesActionListener);
+    }
+
+    public void reportDeviceMessage(RawDeviceMessage rawDeviceMessage) {
+        String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
+        this.publishRawMessage(new RawMessage(topic, rawDeviceMessage.toUTF8String()), messagesActionListener);
     }
 
     /**
      * Reports a device message with a listener specified.
      *
      * @param deviceMessage Indicates the device message to report.
-     * @param listener Indicates the listener.
+     * @param listener      Indicates the listener.
      */
+    @Deprecated
     public void reportDeviceMessage(DeviceMessage deviceMessage, ActionListener listener) {
         String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
         this.publishRawMessage(new RawMessage(topic, JsonUtil.convertObject2String(deviceMessage)), listener);
+    }
+
+    public void reportDeviceMessage(RawDeviceMessage rawDeviceMessage, ActionListener listener) {
+        String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
+        this.publishRawMessage(new RawMessage(topic, rawDeviceMessage.toUTF8String()), listener);
     }
 
     /**
@@ -269,8 +282,9 @@ public class DeviceClient implements RawMessageListener {
      * Reports a device message with a specified QoS level.
      *
      * @param deviceMessage Indicates the device message to report.
-     * @param qos Indicates the QoS level. The value can be 0 or 1.
+     * @param qos           Indicates the QoS level. The value can be 0 or 1.
      */
+    @Deprecated
     public void reportDeviceMessage(DeviceMessage deviceMessage, int qos) {
         String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
         if (qos != 0) {
@@ -279,13 +293,21 @@ public class DeviceClient implements RawMessageListener {
         this.publishRawMessage(new RawMessage(topic, JsonUtil.convertObject2String(deviceMessage), qos), messagesActionListener);
     }
 
+    public void reportDeviceMessage(RawDeviceMessage rawDeviceMessage, int qos) {
+        String topic = "$oc/devices/" + this.deviceId + "/sys/messages/up";
+        if (qos != 0) {
+            qos = 1;
+        }
+        this.publishRawMessage(new RawMessage(topic, rawDeviceMessage.toUTF8String(), qos), messagesActionListener);
+    }
+
     /**
      * Publishes a raw message. The differences between raw messages and device messages are as follows:
      * 1. A topic can be customized. The topic must be configured on the platform.
      * 2. The payload format is not limited.
-     * 
+     *
      * @param rawMessage Indicates the raw message to report.
-     * @param listener Indicates a listener.
+     * @param listener   Indicates a listener.
      */
     public void publishRawMessage(RawMessage rawMessage, ActionListener listener) {
         connection.publishMessage(rawMessage, listener);
@@ -295,8 +317,8 @@ public class DeviceClient implements RawMessageListener {
      * Publishes a custom topic.
      *
      * @param topicName Indicates the name of the custom topic, excluding the fixed prefix.
-     * @param message Indicates the message content.
-     * @param qos Indicates a QoS level. The value can be 0 or 1.
+     * @param message   Indicates the message content.
+     * @param qos       Indicates a QoS level. The value can be 0 or 1.
      */
     public void publishTopic(final String topicName, String message, int qos) {
         String topic = "$oc/devices/" + this.deviceId + "/user/" + topicName;
@@ -374,7 +396,7 @@ public class DeviceClient implements RawMessageListener {
     /**
      * Reports a V3 command response in binary code streams.
      *
-     * @param bytes Indicates the binary code stream to report. 
+     * @param bytes Indicates the binary code stream to report.
      */
     public void responseCommandBinaryV3(Byte[] bytes) {
 
@@ -481,17 +503,24 @@ public class DeviceClient implements RawMessageListener {
 
 
     private void onDeviceMessage(RawMessage message) {
-        DeviceMessage deviceMessage = JsonUtil.convertJsonStringToObject(message.toString(),
-                DeviceMessage.class);
-        if (deviceMessage == null) {
+        RawDeviceMessage rawDeviceMessage = new RawDeviceMessage();
+        rawDeviceMessage.setPayload(message.getPayload());
+        if (rawDeviceMessage == null) {
             Log.e(TAG, "invalid deviceMessage: " + message.toString());
             return;
         }
 
-        device.onDeviceMessage(deviceMessage);
+        device.onDeviceMessage(rawDeviceMessage);
 
-        if (deviceMessage.getDeviceId() == null || deviceMessage.getDeviceId().equals(getDeviceId())) {
-            handleDeviceMessage(deviceMessage);
+        DeviceMessage deviceMessage = rawDeviceMessage.toDeviceMessage();
+
+        if (deviceMessage == null || deviceMessage.getDeviceId() == null || deviceMessage.getDeviceId().equals(getDeviceId())) {
+            //增加设备方法重引导功能，下发的消息内容为BootstrapRequestTrigger，则需要设备发起重引导
+            if (deviceMessage != null && "BootstrapRequestTrigger".equals(deviceMessage.getContent())) {
+                Intent triggerIntent = new Intent(IotDeviceIntent.ACTION_IOT_DEVICE_BOOTSTRAP_REQUEST_TRIGGER);
+                localBroadcastManager.sendBroadcast(triggerIntent);
+            }
+            handleDeviceMessage(rawDeviceMessage);
             return;
         }
 
@@ -500,17 +529,12 @@ public class DeviceClient implements RawMessageListener {
     /**
      * Processes a message delivered by the platform.
      *
-     * @param deviceMessage Indicates the device message delivered.
+     * @param rawDeviceMessage Indicates the device message delivered.
      */
-    private void handleDeviceMessage(DeviceMessage deviceMessage) {
-        //增加设备方法重引导功能，下发的消息内容为BootstrapRequestTrigger，则需要设备发起重引导
-        if ("BootstrapRequestTrigger".equals(deviceMessage.getContent())) {
-            Intent triggerIntent = new Intent(IotDeviceIntent.ACTION_IOT_DEVICE_BOOTSTRAP_REQUEST_TRIGGER);
-            localBroadcastManager.sendBroadcast(triggerIntent);
-        }
+    private void handleDeviceMessage(RawDeviceMessage rawDeviceMessage) {
 
         Intent intent = new Intent(IotDeviceIntent.ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN);
-        intent.putExtra(BaseConstant.SYS_DOWN_MESSAGES, deviceMessage);
+        intent.putExtra(BaseConstant.SYS_DOWN_MESSAGES, rawDeviceMessage);
         localBroadcastManager.sendBroadcast(intent);
     }
 
@@ -623,7 +647,7 @@ public class DeviceClient implements RawMessageListener {
     /**
      * Reports a command response.
      *
-     * @param requestId Indicates the request ID, which must be the same as that in the request.
+     * @param requestId  Indicates the request ID, which must be the same as that in the request.
      * @param commandRsp Indicates the command response to report.
      */
     public void respondCommand(String requestId, CommandRsp commandRsp) {
@@ -637,7 +661,7 @@ public class DeviceClient implements RawMessageListener {
      * Reports a response to a property query request.
      *
      * @param requestId Indicates the request ID, which must be the same as that in the request.
-     * @param services Indicates service properties.
+     * @param services  Indicates service properties.
      */
     public void respondPropsGet(String requestId, List<ServiceProperty> services) {
 
@@ -676,7 +700,7 @@ public class DeviceClient implements RawMessageListener {
      * Subscribes to a custom topic. System topics are automatically subscribed by the SDK. This method can be used only to subscribe to custom topics.
      *
      * @param topicName Indicates the name of the custom topic, excluding the fixed prefix.
-     * @param qos Indicates a QoS level. The value can be 0 or 1.
+     * @param qos       Indicates a QoS level. The value can be 0 or 1.
      */
     public void subscribeTopic(final String topicName, int qos) {
         String topic = "$oc/devices/" + this.deviceId + "/user/" + topicName;
@@ -718,7 +742,7 @@ public class DeviceClient implements RawMessageListener {
      * Subscribes to a V3 topic.
      *
      * @param topic Indicates the topic to subscribe.
-     * @param qos Indicates the QoS.
+     * @param qos   Indicates the QoS.
      */
     public void subscribeTopicV3(String topic, int qos) {
         connection.subscribeTopic(topic, null, qos);
@@ -731,7 +755,7 @@ public class DeviceClient implements RawMessageListener {
     /**
      * Reports an event.
      *
-     * @param event Indicates the event to report.
+     * @param event    Indicates the event to report.
      * @param listener Indicates a listener.
      */
     public void reportEvent(DeviceEvent event, ActionListener listener) {
