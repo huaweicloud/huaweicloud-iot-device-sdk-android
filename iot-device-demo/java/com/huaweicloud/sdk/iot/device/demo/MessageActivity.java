@@ -33,6 +33,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.huaweicloud.sdk.iot.device.client.requests.Command;
 import com.huaweicloud.sdk.iot.device.client.requests.CommandRsp;
 import com.huaweicloud.sdk.iot.device.client.requests.DeviceMessage;
+import com.huaweicloud.sdk.iot.device.client.requests.RawDeviceMessage;
 import com.huaweicloud.sdk.iot.device.constant.BaseConstant;
 import com.huaweicloud.sdk.iot.device.constant.IotDeviceIntent;
 import com.huaweicloud.sdk.iot.device.utils.JsonUtil;
@@ -167,7 +168,8 @@ public class MessageActivity extends AppCompatActivity implements View.OnClickLi
                         break;
                 }
             } else if (IotDeviceIntent.ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN.equals(intent.getAction())) {
-                DeviceMessage deviceMessage = intent.getParcelableExtra(BaseConstant.SYS_DOWN_MESSAGES);
+                RawDeviceMessage deviceMessage = intent.getParcelableExtra(BaseConstant.SYS_DOWN_MESSAGES);
+                Log.i(TAG, "平台下发的消息为：" + deviceMessage.toUTF8String());
                 edtLog.append("平台下发的消息为：" + JsonUtil.convertObject2String(deviceMessage) + "\n");
             } else if (IotDeviceIntent.ACTION_IOT_DEVICE_SYS_COMMANDS.equals(intent.getAction())) {
                 requestId = intent.getStringExtra(BaseConstant.REQUEST_ID);
