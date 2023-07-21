@@ -35,7 +35,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="device_id"
-                    android:text="648ac6761cacf07a38148adf_hqs0721"
                     android:inputType="text" />
 
             </LinearLayout>
@@ -57,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="device password"
-                    android:text="123456789"
                     android:inputType="text" />
 
             </LinearLayout>
@@ -78,7 +76,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="ssl://xxxx.st1.iotda-device.cn-north-4.myhuaweicloud.com:8883"
-                    android:text="ssl://f74dd33bf4.st1.iotda-device.cn-north-4.myhuaweicloud.com:8883"
                     android:inputType="text" />
 
             </LinearLayout>
