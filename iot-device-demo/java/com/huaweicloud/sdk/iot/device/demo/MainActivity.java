@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
     private EditText editTextDeviceId;
     private EditText editTextDevicePassword;
+    private EditText editTextServerUri;
     private Button btPasswordCreate;
     private ConnectBroadcastReceiver connectBroadcastReceiver = new ConnectBroadcastReceiver();
     private Toast mToast;
@@ -163,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initViews() {
         editTextDeviceId = findViewById(R.id.editText_mqtt_device_connect_deviceId);
         editTextDevicePassword = findViewById(R.id.editText_mqtt_device_connect_password);
+        editTextServerUri = findViewById(R.id.editText_mqtt_device_server_uri);
         btPasswordCreate = findViewById(R.id.bt_password_create);
         btPasswordCreate.setOnClickListener(this);
         mToast = Toast.makeText(this, "", Toast.LENGTH_LONG);
@@ -185,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.bt_password_create:
                 String deviceId = editTextDeviceId.getText().toString();
                 String deviceSecret = editTextDevicePassword.getText().toString();
+                serverUri = editTextServerUri.getText().toString();
                 if (TextUtils.isEmpty(deviceId) || TextUtils.isEmpty(deviceSecret)) {
                     Log.e(TAG, "设备Id或者密码为空");
                     mToast.setText("设备Id或者密码为空");
@@ -243,7 +246,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void keystoreCreate() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException {
-        String keyPassword;
+        String keyPassword = "123456";
 
         KeyStore keyStore = CommonUtils.getKeyStore(this, keyPassword, "deviceCert.pem", "deviceCert.key");
         Log.i(TAG, "keystoreCreate: keyStore=" + keyStore);

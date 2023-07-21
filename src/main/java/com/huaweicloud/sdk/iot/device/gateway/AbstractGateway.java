@@ -30,6 +30,7 @@ import com.huaweicloud.sdk.iot.device.client.requests.DeviceEvents;
 import com.huaweicloud.sdk.iot.device.client.requests.DeviceMessage;
 import com.huaweicloud.sdk.iot.device.client.requests.PropsGet;
 import com.huaweicloud.sdk.iot.device.client.requests.PropsSet;
+import com.huaweicloud.sdk.iot.device.client.requests.RawDeviceMessage;
 import com.huaweicloud.sdk.iot.device.client.requests.ServiceProperty;
 import com.huaweicloud.sdk.iot.device.constant.BaseConstant;
 import com.huaweicloud.sdk.iot.device.constant.IotDeviceIntent;
@@ -443,12 +444,15 @@ public abstract class AbstractGateway extends IoTDevice {
      * @param message Indicates the message.
      */
     @Override
-    public void onDeviceMessage(DeviceMessage message) {
-
+    public void onDeviceMessage(RawDeviceMessage message) {
+        DeviceMessage deviceMessage = message.toDeviceMessage();
+        if (deviceMessage == null) {
+            return;
+        }
         // For a child device
-        if (message.getDeviceId() != null && !message.getDeviceId().equals(this.getDeviceId())) {
+        if (deviceMessage.getDeviceId() != null && !deviceMessage.getDeviceId().equals(this.getDeviceId())) {
 
-            this.onSubdevMessage(message);
+            this.onSubdevMessage(deviceMessage);
             return;
         }
     }

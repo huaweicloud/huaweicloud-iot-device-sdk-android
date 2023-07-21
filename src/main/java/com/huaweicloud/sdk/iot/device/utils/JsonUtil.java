@@ -46,7 +46,11 @@ public class JsonUtil {
             return null;
         } else {
             T object = null;
-            object = gson.fromJson(jsonString, cls);
+            try {
+                object = gson.fromJson(jsonString, cls);
+            } catch (Exception e) {
+                Log.w(TAG, "convertJsonStringToObject error");
+            }
             return object;
         }
     }

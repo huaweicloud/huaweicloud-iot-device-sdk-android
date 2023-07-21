@@ -29,6 +29,7 @@ import com.huaweicloud.sdk.iot.device.client.requests.DeviceEvents;
 import com.huaweicloud.sdk.iot.device.client.requests.DeviceMessage;
 import com.huaweicloud.sdk.iot.device.client.requests.PropsGet;
 import com.huaweicloud.sdk.iot.device.client.requests.PropsSet;
+import com.huaweicloud.sdk.iot.device.client.requests.RawDeviceMessage;
 import com.huaweicloud.sdk.iot.device.client.requests.ServiceProperty;
 import com.huaweicloud.sdk.iot.device.filemanager.FileManager;
 import com.huaweicloud.sdk.iot.device.log.LogService;
@@ -410,7 +411,7 @@ public class AbstractDevice {
      *
      * @param message Indicates the message.
      */
-    public void onDeviceMessage(DeviceMessage message) {
+    public void onDeviceMessage(RawDeviceMessage message) {
 
     }
 

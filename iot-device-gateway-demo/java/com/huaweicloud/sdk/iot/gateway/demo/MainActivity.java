@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         subDevices = new HashMap<String, String>();
         subDevicesPersistence = new SubDevicesFilePersistence(this);
         simpleGateway = new SimpleGateway(this, subDevicesPersistence,
-                "ssl://iot-mqtts.cn-north-4.myhuaweicloud.com:8883",
+                "ssl://xxxxx.st1.iotda-device.cn-north-4.myhuaweicloud.com:8883",
                 "5eb4cd4049a5ab087d7d4861_demo", "secret");
         //同步网关信息
         List<DeviceInfo> allSubDevices = subDevicesPersistence.getAllSubDevices();
