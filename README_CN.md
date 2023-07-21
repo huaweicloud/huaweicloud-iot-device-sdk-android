@@ -283,7 +283,7 @@ gson：v2.8.6
 
    ```java
    //创建消息
-   DeviceMessage deviceMessage = new DeviceMessage();
+   RawDeviceMessage deviceMessage = new RawDeviceMessage(); 
    
    //上报消息
    device.getClient().reportDeviceMessage(deviceMessage);
@@ -346,7 +346,7 @@ gson：v2.8.6
 LocalBroadcastManager.getInstance(this).registerReceiver(messageBroadcastReceiver, new IntentFilter(IotDeviceIntent.ACTION_IOT_DEVICE_SYS_MESSAGES_DOWN));
 
 //消息下发广播携带数据
-DeviceMessage deviceMessage = intent.getParcelableExtra(BaseConstant.SYS_DOWN_MESSAGES);
+RawDeviceMessage deviceMessage = intent.getParcelableExtra(BaseConstant.SYS_DOWN_MESSAGES);
 ```
 
 <h1 id="12">命令下发</h1>
