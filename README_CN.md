@@ -138,10 +138,9 @@ gson：v2.8.6
    ![](./doc/doc_cn/as_setting5.png)
 
 <h1 id="6">代码工程配置</h1>
-1. 工程app/libs下添加上文中生成的Jar包。
+ 1. 工程app/libs下添加上文中生成的Jar包。
 
-2. build.gradle中添加以下依赖。
-
+ 2. build.gradle中添加以下依赖。
    ```groovy
    implementation fileTree(dir: "libs", include: ["*.jar"])
    implementation 'androidx.localbroadcastmanager:localbroadcastmanager:1.0.0'
@@ -151,6 +150,9 @@ gson：v2.8.6
    implementation group: 'org.bouncycastle', name: 'bcprov-jdk15to18', version: '1.68'
    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.9.1'
    ```
+   
+ 3. AndroidManifest.xml文件中添加以下网络权限
+  <uses-permission android:name="android.permission.INTERNET" />
 
 <h1 id="7">设备初始化</h1>
 1. 创建设备。
