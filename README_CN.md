@@ -152,7 +152,10 @@ gson：v2.8.6
    ```
    
  3. AndroidManifest.xml文件中添加以下网络权限
+ 
+  ```xml
   <uses-permission android:name="android.permission.INTERNET" />
+  ```
 
 <h1 id="7">设备初始化</h1>
 1. 创建设备。
