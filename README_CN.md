@@ -155,7 +155,7 @@ gson：v2.8.6
 <h1 id="7">设备初始化</h1>
 1. 创建设备。
 
-     设备接入平台时，物联网平台提供密钥和证书两种鉴权方式，如果使用MQTTS，请把下载的bks证书放置到src/main/assets下，<a href="https://support.huaweicloud.com/devg-iothub/iot_02_1004.html#ZH-CN_TOPIC_0187644975__section197481637133318" target="_blank">下载证书文件</a>。
+     设备接入平台时，物联网平台提供密钥和证书两种鉴权方式，如果使用MQTTS，请把下载的bks证书(需要把证书重命名为DigiCertGlobalRootCA.bks)放置到src/main/assets下，<a href="https://support.huaweicloud.com/devg-iothub/iot_02_1004.html#ZH-CN_TOPIC_0187644975__section197481637133318" target="_blank">下载证书文件</a>。
 
    - 密钥方式接入。
 
