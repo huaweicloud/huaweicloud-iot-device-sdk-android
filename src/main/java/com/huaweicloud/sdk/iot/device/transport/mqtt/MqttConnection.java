@@ -358,7 +358,7 @@ public class MqttConnection implements Connection {
         if (mqttAsyncClient != null) {
             try {
                 mqttAsyncClient.disconnect();
-                mqttAsyncClient.close();
+                mqttAsyncClient.close(true);
             } catch (MqttException e) {
                 Log.e(TAG, ExceptionUtil.getBriefStackTrace(e));
             }
