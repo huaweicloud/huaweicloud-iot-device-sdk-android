@@ -355,7 +355,7 @@ public class MqttConnection implements Connection {
         iMqttActionListener = null;
         retryTimes = 0;
 
-        if (mqttAsyncClient != null && mqttAsyncClient.isConnected()) {
+        if (mqttAsyncClient != null) {
             try {
                 mqttAsyncClient.disconnect();
                 mqttAsyncClient.close();
